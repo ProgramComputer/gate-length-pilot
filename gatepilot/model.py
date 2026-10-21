@@ -33,7 +33,7 @@ class Attention(nn.Module):
         B, T, D = x.shape
         q, k, v = self.qkv(x).view(B, T, 3, self.n_heads, D // self.n_heads).permute(2, 0, 3, 1, 4)
         if logit_scale is not None:
-            q = q * logit_scale.view(1, 1, T, 1)
+            q = q * logit_scale.to(q.device).view(1, 1, T, 1)
         if iv.observing:
             w = (q[:, :, -1:] @ k.transpose(-1, -2) / math.sqrt(q.shape[-1])).softmax(-1)[:, :, 0]
             iv.observe("attn_entropy", layer, -(w * w.clamp_min(1e-12).log()).sum(-1))
