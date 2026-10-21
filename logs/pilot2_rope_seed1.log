@@ -1,0 +1,5 @@
+rope seed 1 temp 1.0: acc@1024 uniform=0.189 before=0.592 after=0.025; probe layer 2 refit by window [0.9092, 0.833, 0.5896, 0.499]  (37s)
+rope seed 1 temp 1.2: acc@1024 uniform=0.188 before=0.600 after=0.024; probe layer 2 refit by window [0.9146, 0.8433, 0.5908, 0.5059]  (70s)
+rope seed 1 temp 1.5: acc@1024 uniform=0.192 before=0.600 after=0.025; probe layer 2 refit by window [0.9143, 0.8462, 0.5894, 0.5103]  (100s)
+rope seed 1 temp 1.8: acc@1024 uniform=0.191 before=0.597 after=0.026; probe layer 2 refit by window [0.916, 0.8506, 0.5859, 0.5115]  (123s)
+wrote results2/rope_seed1.json

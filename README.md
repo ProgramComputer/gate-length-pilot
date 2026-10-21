@@ -7,6 +7,9 @@ attention-side failure explains?**
 - Design and the fixed decision rule: [PREREGISTRATION.md](PREREGISTRATION.md). It was committed before any
   long-length result existed; see `git log`.
 - Results and verdict: [RESULTS.md](RESULTS.md).
+- **Pilot 2** (follow-up: why records beyond the trained length are lost; NoPE vs a RoPE control, binding probes
+  and attention temperature): [PREREGISTRATION-2.md](PREREGISTRATION-2.md) and [RESULTS-2.md](RESULTS-2.md).
+  Code: `gatepilot/probe.py`, `pilot2.py`, `report2.py`. Verdict: MIXED.
 
 ## Layout
 

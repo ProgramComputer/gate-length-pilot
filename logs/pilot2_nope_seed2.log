@@ -1,0 +1,5 @@
+nope seed 2 temp 1.0: acc@1024 uniform=0.173 before=0.015 after=0.871; probe layer 3 refit by window [0.9385, 0.5681, 0.0637, 0.0034]  (38s)
+nope seed 2 temp 1.2: acc@1024 uniform=0.217 before=0.016 after=0.849; probe layer 3 refit by window [0.9482, 0.71, 0.217, 0.0212]  (70s)
+nope seed 2 temp 1.5: acc@1024 uniform=0.313 before=0.018 after=0.925; probe layer 3 refit by window [0.9124, 0.7168, 0.3665, 0.1067]  (97s)
+nope seed 2 temp 1.8: acc@1024 uniform=0.350 before=0.040 after=0.937; probe layer 3 refit by window [0.825, 0.647, 0.3855, 0.1687]  (118s)
+wrote results2/nope_seed2.json
