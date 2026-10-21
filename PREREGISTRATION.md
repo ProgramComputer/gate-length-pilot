@@ -51,7 +51,8 @@ readout is a linear map to the 64 value tokens at the final (query) position.
 ## 4. Training (`train.py`)
 
 Three model seeds: **0, 1, 2**. AdamW (lr 1e-3, betas 0.9/0.98, weight decay 0.01), batch 64, 500 warmup steps,
-cosine decay to 10% of peak, grad-norm clip 1.0. The default is 20,000 steps. Training logs only length-128
+cosine decay to 10% of peak, grad-norm clip 1.0. The default is 20,000 steps (changed by amendment A1 in §11:
+60,000 steps with a length curriculum). Training logs only length-128
 validation accuracy, loss and prediction spread. If a seed's final length-128 validation accuracy is below 95%,
 training may be lengthened or adjusted using **length-128 data only**, and the change is logged in §11. The same
 recipe is then used for all three seeds.
@@ -158,7 +159,16 @@ verdict.
 Any change after this commit is listed here with its date and reason, and with whether it was made before or
 after any intervention result was seen.
 
-- *(none yet)*
+- **A1 (2026-10-21, before any model was evaluated above length 128 and before any intervention was run). Training
+  recipe.** With the §4 recipe (20k steps, n uniform in 4..62 from step 1), the learnability probe (seed 98)
+  stayed at 5% length-128 accuracy. It learned only to guess a value present in the context, not to bind keys to
+  values. A 100k-step run without changes (seed 96) was also at chance at 16k steps. Probes on length-128
+  validation only (seeds 94, 95, 97) showed that a **length curriculum** solves this. The maximum number of
+  records per batch ramps linearly from 8 to 62 over the first 50% of training, and n is uniform in 4..max. The
+  adopted recipe changes only that and the step count: `--steps 60000 --curriculum 0.5`, with batch 64,
+  lr 1e-3 and everything else as in §4. The probe with exactly this recipe (seed 97) reached 99.3% length-128
+  validation accuracy at 40k steps. Probe seeds 94–99 are not used in any analysis. Training also logs
+  accuracy on short inputs (≤ 8 records) as a learning monitor. Nothing else in §5–§10 changes.
 
 ## 12. Out of scope for this pilot
 

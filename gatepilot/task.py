@@ -47,8 +47,12 @@ def roles(seq: torch.Tensor) -> torch.Tensor:
     return r
 
 
-def train_batch(batch_size: int, gen: torch.Generator) -> tuple[torch.Tensor, torch.Tensor]:
-    n = int(torch.randint(4, n_records(TRAIN_LEN) + 1, (1,), generator=gen))
+def train_batch(
+    batch_size: int,
+    gen: torch.Generator,
+    max_records: int = n_records(TRAIN_LEN),
+) -> tuple[torch.Tensor, torch.Tensor]:
+    n = int(torch.randint(4, max_records + 1, (1,), generator=gen))
     keys = torch.rand(batch_size, N_KEYS, generator=gen).argsort(1)[:, :n]
     vals = torch.randint(N_VALS, (batch_size, n), generator=gen)
     q = torch.randint(n, (batch_size,), generator=gen)
