@@ -17,6 +17,14 @@ def log_length_scale(T: int) -> torch.Tensor:
 
 
 class Intervention:
+    wants_qk = wants_logits = False
+
+    def rope_edit(
+        self,
+        layer: int,
+    ) -> tuple[torch.Tensor | None, float, torch.Tensor | None] | None:
+        return None
+
     def __init__(self, attn_temp: bool = False, uniform_temp: float | None = None) -> None:
         self.attn_temp = attn_temp
         self.uniform_temp = uniform_temp
