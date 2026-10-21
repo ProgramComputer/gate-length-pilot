@@ -25,6 +25,9 @@ class Intervention:
     ) -> tuple[torch.Tensor | None, float, torch.Tensor | None] | None:
         return None
 
+    def attn_patch(self, layer: int, T: int) -> tuple[torch.Tensor, torch.Tensor, int] | None:
+        return None
+
     def __init__(self, attn_temp: bool = False, uniform_temp: float | None = None) -> None:
         self.attn_temp = attn_temp
         self.uniform_temp = uniform_temp

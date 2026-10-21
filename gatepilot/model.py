@@ -23,6 +23,9 @@ class NoIntervention:
     def rope_edit(self, layer: int) -> None:
         return None
 
+    def attn_patch(self, layer: int, T: int) -> None:
+        return None
+
     def __call__(self, site: str, layer: int, x: torch.Tensor) -> torch.Tensor:
         return x
 
@@ -82,6 +85,10 @@ class Attention(nn.Module):
         if iv.wants_logits:
             iv.on_logits(layer, q @ k.transpose(-1, -2) / math.sqrt(q.shape[-1]))
         y = F.scaled_dot_product_attention(q, k, v, is_causal=True)
+        patch = iv.attn_patch(layer, T)
+        if patch is not None:
+            heads, pos, offset = (t.to(y.device) if torch.is_tensor(t) else t for t in patch)
+            y[:, heads[:, None], pos[None, :]] = v[:, heads[:, None], pos[None, :] - offset]
         return self.out(y.transpose(1, 2).reshape(B, T, D))
 
 
