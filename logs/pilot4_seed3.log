@@ -1,0 +1,5 @@
+seed 3: binding heads [(1, 0), (2, 0), (2, 1), (2, 2), (2, 3)]; attention to previous by window {'1.0': [0.304, 0.151, 0.049, 0.015], '2.0': [0.847, 0.542, 0.192, 0.042], '2.1': [0.838, 0.545, 0.198, 0.042], '2.2': [0.848, 0.541, 0.191, 0.039], '2.3': [0.844, 0.54, 0.193, 0.041]}
+none {'none/uniform/128': 1.0, 'none/uniform/1024': 0.148, 'none/before/1024': 0.016, 'none/after/1024': 0.557} probe far 0.034
+patch {'patch/uniform/128': 1.0, 'patch/uniform/1024': 0.978, 'patch/before/1024': 0.987, 'patch/after/1024': 0.996} probe far 0.985
+sham {'sham/uniform/128': 1.0, 'sham/uniform/1024': 0.128, 'sham/before/1024': 0.012, 'sham/after/1024': 0.996} probe far 0.015
+wrote results4/seed3.json (268s)

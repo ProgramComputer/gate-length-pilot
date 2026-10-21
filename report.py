@@ -40,7 +40,7 @@ COLOR = {
 PLACE_COLOR = {"uniform": "#2a78d6", "before": "#eb6834", "after": "#1baf7a"}
 LAYER_COLOR = ["#9cc2f0", "#5c97e2", "#2a78d6", "#143f78"]
 INK, MUTED, GRID = "#0b0b0b", "#52514e", "#e6e5e0"
-T95 = {2: 12.71, 3: 4.303, 4: 3.182, 5: 2.776}
+T95 = {2: 12.71, 3: 4.303, 4: 3.182, 5: 2.776, 6: 2.571, 7: 2.447, 8: 2.365}
 plt.rcParams.update(
     {
         "font.size": 8.5,

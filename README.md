@@ -13,6 +13,12 @@ attention-side failure explains?**
 - **Pilot 3** (two tests aimed at open questions in two recent papers: RoPE Profiler, Wu, Du & Peng
   2026; attention decomposition, Han & Ji 2025): [PREREGISTRATION-3.md](PREREGISTRATION-3.md) and
   [RESULTS-3.md](RESULTS-3.md). Code: `pilot3.py`, `report3.py`. Verdicts: DETECTS BUT DOES NOT FIX; NO BREAK IN NOPE.
+- **Pilot 4** (final; is the lost binding caused by the previous-token heads? Six NoPE seeds, three of them
+  fresh): [PREREGISTRATION-4.md](PREREGISTRATION-4.md) and [RESULTS-4.md](RESULTS-4.md). Code: `pilot4.py`,
+  `report4.py`. Verdict: BINDING ATTENTION IS THE BOTTLENECK.
+
+**Where things stand:** RESULTS-4.md has a one-table summary of all four pilots. The series stopped after pilot 4,
+as pre-registered.
 
 ## Layout
 
