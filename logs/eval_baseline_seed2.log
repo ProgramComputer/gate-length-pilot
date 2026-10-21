@@ -1,0 +1,5 @@
+L=  128 none      acc uniform=1.000 before=1.000 after=1.000  (1s)
+L=  256 none      acc uniform=0.889 before=0.771 after=1.000  (2s)
+L=  512 none      acc uniform=0.433 before=0.024 after=0.976  (3s)
+L= 1024 none      acc uniform=0.173 before=0.015 after=0.871  (8s)
+wrote results/baseline_seed2.json

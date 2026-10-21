@@ -1,0 +1,17 @@
+seed 95: 1,131,904 parameters on cuda
+{'step': 1, 'loss': 4.3031, 'val_acc128': 0.014, 'pred_spread': 64, 'val_acc_short': 0.013, 'grad_norm': 0.868, 'lr': 3.999999997532599e-06, 'sec': 0.4}
+{'step': 10, 'loss': 4.3798, 'val_acc128': 0.014, 'pred_spread': 64, 'val_acc_short': 0.013, 'grad_norm': 0.853, 'lr': 2.199999864292943e-05, 'sec': 0.8}
+{'step': 100, 'loss': 4.1121, 'val_acc128': 0.012, 'pred_spread': 64, 'val_acc_short': 0.03, 'grad_norm': 0.846, 'lr': 0.00020199875396529113, 'sec': 2.5}
+{'step': 2000, 'loss': 0.0109, 'val_acc128': 0.202, 'pred_spread': 62, 'val_acc_short': 0.999, 'grad_norm': 0.982, 'lr': 0.000997534852915723, 'sec': 36.0}
+{'step': 4000, 'loss': 0.0004, 'val_acc128': 0.219, 'pred_spread': 63, 'val_acc_short': 1.0, 'grad_norm': 0.007, 'lr': 0.0009901664203302127, 'sec': 76.5}
+{'step': 6000, 'loss': 0.0063, 'val_acc128': 0.207, 'pred_spread': 62, 'val_acc_short': 1.0, 'grad_norm': 0.438, 'lr': 0.0009779754323328191, 'sec': 122.5}
+{'step': 8000, 'loss': 0.0004, 'val_acc128': 0.349, 'pred_spread': 64, 'val_acc_short': 0.999, 'grad_norm': 0.03, 'lr': 0.0009610954559391705, 'sec': 173.9}
+{'step': 10000, 'loss': 0.0014, 'val_acc128': 0.486, 'pred_spread': 64, 'val_acc_short': 1.0, 'grad_norm': 0.176, 'lr': 0.0009397114317029975, 'sec': 230.3}
+{'step': 12000, 'loss': 0.0298, 'val_acc128': 0.636, 'pred_spread': 64, 'val_acc_short': 1.0, 'grad_norm': 1.969, 'lr': 0.0009140576474687264, 'sec': 293.4}
+{'step': 14000, 'loss': 0.0001, 'val_acc128': 0.77, 'pred_spread': 64, 'val_acc_short': 1.0, 'grad_norm': 0.001, 'lr': 0.0008844151714648275, 'sec': 361.5}
+{'step': 16000, 'loss': 0.0, 'val_acc128': 0.824, 'pred_spread': 64, 'val_acc_short': 1.0, 'grad_norm': 0.001, 'lr': 0.0008511087728614863, 'sec': 428.1}
+{'step': 18000, 'loss': 0.0, 'val_acc128': 0.866, 'pred_spread': 64, 'val_acc_short': 1.0, 'grad_norm': 0.001, 'lr': 0.0008145033635316131, 'sec': 490.0}
+{'step': 20000, 'loss': 0.0, 'val_acc128': 0.935, 'pred_spread': 64, 'val_acc_short': 1.0, 'grad_norm': 0.0, 'lr': 0.0007750000000000002, 'sec': 555.6}
+{'step': 22000, 'loss': 0.0, 'val_acc128': 0.941, 'pred_spread': 64, 'val_acc_short': 1.0, 'grad_norm': 0.0, 'lr': 0.0007330314893841103, 'sec': 625.8}
+{'step': 24000, 'loss': 0.003, 'val_acc128': 0.979, 'pred_spread': 64, 'val_acc_short': 1.0, 'grad_norm': 2.339, 'lr': 0.0006890576474687265, 'sec': 700.0}
+{'step': 26000, 'loss': 0.0211, 'val_acc128': 0.982, 'pred_spread': 64, 'val_acc_short': 1.0, 'grad_norm': 1.323, 'lr': 0.0006435602608679916, 'sec': 779.1}

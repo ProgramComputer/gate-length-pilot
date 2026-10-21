@@ -21,6 +21,7 @@ attention-side failure explains?**
 | `runs/seed*/` | trained checkpoints and training logs |
 | `results/` | per-seed results (`seed*.json`), sanity check (`baseline_seed*.json`), `decision.md` |
 | `figures/` | the figures |
+| `logs/` | training/evaluation logs and launch scripts from the GPU run, including the learnability probes |
 
 ## Reproduce
 
@@ -28,8 +29,7 @@ attention-side failure explains?**
 python -m venv .venv && .venv/Scripts/pip install -r requirements.txt   # Linux/macOS: .venv/bin/pip
 ```
 
-Training and evaluation take about 15 minutes per seed on one RTX 3090. They work on a CPU too, but a laptop
-CPU needs about 1–2 days in total.
+Training and evaluation run on a CPU too, but a laptop CPU needs about 1–2 days in total.
 
 ```bash
 python train.py --seed 0 --steps 60000 --curriculum 0.5      # repeat for seeds 1 and 2
@@ -45,5 +45,13 @@ python report.py fig2       # gate drift per layer (plus value branch, residual,
 python report.py fig3       # accuracy vs length for every condition, seed-level CIs
 python report.py fig4       # manipulation checks
 python report.py fig5       # interventions by distractor placement
+python report.py fig6       # exploratory: relevant record inside vs beyond the trained range
 python report.py decision   # writes results/decision.md with the verdict
+```
+
+On the GPU, training took about 12 minutes for the three seeds together, and the full evaluation about 2 minutes
+per seed. `logs/` has the exact shell scripts and logs from that run.
+
+```bash
+python report.py            # everything
 ```

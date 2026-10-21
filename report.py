@@ -258,17 +258,20 @@ def acc_curve(
     )
 
 
+def target_position(r: dict[str, Any], L: int, pl: str = "uniform") -> np.ndarray:
+    n = (L - 3) // 2
+    return 1 + 2 * (n - 1 - np.array(r["distance"][f"{pl}/{L}"]))
+
+
 def fig1() -> None:
     R = load("baseline_seed") or load()
-    fig, axes = plt.subplots(1, 2, figsize=(8.4, 3.1))
+    fig, axes = plt.subplots(1, 3, figsize=(12.6, 3.1))
     for pl in PLACEMENTS:
         acc_curve(axes[0], R, "none", pl, label=pl, color=PLACE_COLOR[pl])
     axes[0].axhline(100 / 64, color=MUTED, ls=":", lw=1)
     axes[0].text(1024, 100 / 64 + 2, "chance", color=MUTED, ha="right", fontsize=7.5)
     set_length_axis(axes[0])
-    axes[0].set(
-        ylabel="accuracy (%)", ylim=(0, 102), title="a. No intervention, by distractor placement"
-    )
+    axes[0].set(ylabel="accuracy (%)", ylim=(0, 102), title="a. By distractor placement")
     axes[0].legend(title="inserted records go…", fontsize=7.5, title_fontsize=7.5)
     bins = [0, 16, 32, 64, 128, 256, 512]
     for L, c in zip(LENS, LAYER_COLOR):
@@ -287,9 +290,29 @@ def fig1() -> None:
         xlabel="records between relevant record and query",
         ylabel="accuracy (%)",
         ylim=(0, 102),
-        title="b. Uniform placement, by distance (seeds pooled)",
+        title="b. Uniform placement, by distance",
     )
     axes[1].legend(title="length", fontsize=7.5, title_fontsize=7.5)
+    edges = [0, 32, 64, 128, 256, 512, 1024]
+    for L, c in zip(LENS, LAYER_COLOR):
+        pos = np.concatenate([target_position(r, L) for r in R])
+        k = np.concatenate([correct(r, "none", L) for r in R])
+        mids, accs = [], []
+        for lo, hi in zip(edges[:-1], edges[1:]):
+            sel = (pos >= lo) & (pos < hi)
+            if sel.sum() >= 20:
+                mids.append(np.sqrt(max(lo, 8) * hi)), accs.append(100 * k[sel].mean())
+        axes[2].plot(mids, accs, marker="o", color=c, label=str(L))
+    axes[2].axvline(128, color=MUTED, ls=":", lw=1)
+    axes[2].text(124, 90, "trained\nlength", color=MUTED, fontsize=7.5, ha="right")
+    axes[2].set_xscale("log", base=2)
+    axes[2].set(
+        xlabel="token position of the relevant record",
+        ylim=(0, 102),
+        title="c. Uniform placement, by position",
+    )
+    fig.suptitle("No intervention (b, c: seeds pooled)", x=0.01, ha="left", fontsize=9.5)
+    fig.tight_layout()
     save(fig, "fig1_baseline")
 
 
@@ -305,14 +328,10 @@ def fig2() -> None:
     for ax, (site, title) in zip(axes[0], sites):
         for layer in range(N_LAYERS):
             v = np.array([[r["drift"][f"{L}/{site}/{layer}"]["w2"] for L in LENS] for r in R])
-            ax.errorbar(
-                LENS,
-                v.mean(0),
-                yerr=[mean_ci(v[:, i])[1] for i in range(len(LENS))],
-                color=LAYER_COLOR[layer],
-                marker="o",
-                capsize=2,
-                label=f"layer {layer + 1}",
+            for row in v:
+                ax.plot(LENS, row, color=LAYER_COLOR[layer], lw=0.7, alpha=0.4)
+            ax.plot(
+                LENS, v.mean(0), color=LAYER_COLOR[layer], marker="o", label=f"layer {layer + 1}"
             )
         set_length_axis(ax)
         ax.set(
@@ -366,8 +385,9 @@ def fig2() -> None:
         ylabel="|Δmean| / short SD",
     )
     fig.suptitle(
-        "Gate drift at the query position, short (128) vs long inputs (calibration set; "
-        f"bottom row: seed {r0['seed']})",
+        "Drift at the query position, length L vs length 128 "
+        "(calibration set; top: mean over seeds, thin "
+        f"lines = seeds; bottom: seed {r0['seed']})",
         x=0.01,
         ha="left",
         fontsize=9.5,
@@ -515,6 +535,48 @@ def fig5() -> None:
     save(fig, "fig5_placement")
 
 
+def fig6() -> None:
+    R = load()
+    fig, axes = plt.subplots(1, 2, figsize=(10, 3.2), sharey=True)
+    for ax, inside, title in (
+        (axes[0], True, "relevant record inside trained range (position < 128)"),
+        (axes[1], False, "relevant record beyond it (position ≥ 128)"),
+    ):
+        for j, L in enumerate(LONG):
+            for i, c in enumerate(CONDS):
+                v: list[float] = []
+                for r in R:
+                    sel = (target_position(r, L) < 128) == inside
+                    v.append(100 * correct(r, c, L)[sel].mean())
+                x = i + (j - 0.5) * 0.36
+                ax.bar(
+                    x,
+                    np.mean(v),
+                    width=0.34,
+                    color=COLOR[c],
+                    alpha=1.0 if L == 1024 else 0.55,
+                    edgecolor="white",
+                )
+                ax.scatter([x] * len(v), v, s=6, color=INK, zorder=3)
+        ax.set_xticks(
+            range(len(CONDS)), [LABEL[c].split(" (")[0] for c in CONDS], rotation=30, ha="right"
+        )
+        ax.set(title=title, ylim=(0, 102), ylabel="accuracy (%)" if inside else None)
+        ax.grid(axis="x", visible=False)
+    n_in = {L: np.mean([(target_position(R[0], L) < 128).mean()]) for L in LONG}
+    fig.suptitle(
+        "Exploratory: where the corrections help "
+        "(uniform placement; light bars 512, dark bars 1024; "
+        f"dots = seeds; {100 * n_in[512]:.0f}% / {100 * n_in[1024]:.0f}% of test items are inside "
+        "at 512 / 1024)",
+        x=0.01,
+        ha="left",
+        fontsize=9,
+    )
+    fig.tight_layout()
+    save(fig, "fig6_exploratory_position")
+
+
 def save(fig: plt.Figure, name: str) -> None:
     FIG.mkdir(exist_ok=True)
     fig.savefig(FIG / f"{name}.png")
@@ -529,6 +591,7 @@ if __name__ == "__main__":
         "fig3": fig3,
         "fig4": fig4,
         "fig5": fig5,
+        "fig6": fig6,
         "decision": decision,
     }
     for name in sys.argv[1:] or items:
