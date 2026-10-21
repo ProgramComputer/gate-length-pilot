@@ -1,0 +1,2 @@
+nope 2 positional head 1.2 {'corr_inside': 0.9839, 'corr_far': 0.9906, 'corr_transfer': 0.9864, 'rho_a': 0.999, 'share_inside': 0.8254, 'share_far': 0.9291}
+wrote results3/b_nope_seed2.json (169s)

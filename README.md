@@ -10,6 +10,9 @@ attention-side failure explains?**
 - **Pilot 2** (follow-up: why records beyond the trained length are lost; NoPE vs a RoPE control, binding probes
   and attention temperature): [PREREGISTRATION-2.md](PREREGISTRATION-2.md) and [RESULTS-2.md](RESULTS-2.md).
   Code: `gatepilot/probe.py`, `pilot2.py`, `report2.py`. Verdict: MIXED.
+- **Pilot 3** (two tests aimed at open questions in two recent papers: RoPE Profiler, Wu, Du & Peng
+  2026; attention decomposition, Han & Ji 2025): [PREREGISTRATION-3.md](PREREGISTRATION-3.md) and
+  [RESULTS-3.md](RESULTS-3.md). Code: `pilot3.py`, `report3.py`. Verdicts: DETECTS BUT DOES NOT FIX; NO BREAK IN NOPE.
 
 ## Layout
 

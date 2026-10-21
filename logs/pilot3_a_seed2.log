@@ -1,0 +1,10 @@
+heads [(2, 2, 'value', 0.9798), (2, 1, 'value', 0.9798)] diagnostics {'128': {'semantic_score': 1.0, 'reversal_true': 0.0, 'positional_score': 0.01404}, '1024': {'semantic_score': 0.9114, 'reversal_true': 0.1005, 'positional_score': 0.01498}}
+baseline {'baseline/uniform/128': 1.0, 'baseline/uniform/1024': 0.237, 'baseline/before/1024': 0.646, 'baseline/after/1024': 0.009}
+sem_a0.5 {'sem_a0.5/uniform/128': 1.0, 'sem_a0.5/uniform/1024': 0.236, 'sem_a0.5/before/1024': 0.649, 'sem_a0.5/after/1024': 0.01}
+sem_a0.25 {'sem_a0.25/uniform/128': 1.0, 'sem_a0.25/uniform/1024': 0.235, 'sem_a0.25/before/1024': 0.649, 'sem_a0.25/after/1024': 0.01}
+sem_a0 {'sem_a0/uniform/128': 1.0, 'sem_a0/uniform/1024': 0.238, 'sem_a0/before/1024': 0.649, 'sem_a0/after/1024': 0.01}
+sem_freeze {'sem_freeze/uniform/128': 1.0, 'sem_freeze/uniform/1024': 0.238, 'sem_freeze/before/1024': 0.652, 'sem_freeze/after/1024': 0.01}
+pos_a2 {'pos_a2/uniform/128': 1.0, 'pos_a2/uniform/1024': 0.232, 'pos_a2/before/1024': 0.649, 'pos_a2/after/1024': 0.011}
+pos_a4 {'pos_a4/uniform/128': 1.0, 'pos_a4/uniform/1024': 0.213, 'pos_a4/before/1024': 0.643, 'pos_a4/after/1024': 0.014}
+PI {'PI/uniform/128': 1.0, 'PI/uniform/1024': 0.029, 'PI/before/1024': 0.021, 'PI/after/1024': 0.038}
+wrote results3/a_seed2.json (167s)

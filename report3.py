@@ -171,7 +171,7 @@ def fig9() -> None:
     ax.set_xticks(x, [f"seed {r['seed']}" for r in A])
     ax.set(
         ylabel="% of distances where a distractor\nkey outscores the relevant key",
-        title="a. Reversal of the correct preference",
+        title="a. Reversals (0% in every seed at 128)",
     )
     ax.legend(fontsize=7.5)
     ax.grid(axis="x", visible=False)
@@ -210,7 +210,10 @@ def fig10() -> None:
         ax.set(
             xlabel="distance i − j (tokens)",
             ylabel="positional part a(i−j), detrended" if name == "NoPE" else None,
-            title=f"{name}: positional head per seed (solid: positions < 128, dotted: 512–639)",
+            title=(
+                f"{'a' if name == 'NoPE' else 'b'}. {name} positional head "
+                "(solid <128, dotted 512–639)"
+            ),
         )
     ax = axes[2]
     for k, (name, rs, color) in enumerate((("NoPE", NB, "#2a78d6"), ("RoPE", RB, "#eb6834"))):
@@ -239,7 +242,7 @@ def fig10() -> None:
     ax.set(
         ylim=(-1.05, 1.05),
         ylabel="rho_a: same shape inside and far?",
-        title="all heads (small), positional head (large)",
+        title="c. All heads (small), positional head (large)",
     )
     ax.legend(fontsize=7)
     fig.suptitle(

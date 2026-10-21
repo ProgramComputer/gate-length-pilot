@@ -1,0 +1,2 @@
+rope 0 positional head 1.2 {'corr_inside': 0.7686, 'corr_far': 0.7926, 'corr_transfer': 0.7787, 'rho_a': 0.9716, 'share_inside': 0.4138, 'share_far': 0.4096}
+wrote results3/b_rope_seed0.json (170s)
