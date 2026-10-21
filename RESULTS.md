@@ -125,6 +125,10 @@ review's objection that matching marginal distributions does not guarantee an ac
 - The sham's perturbation came out 1.2–1.6× larger than the real correction's, because it is re-fitted under its
   own upstream changes. It was not exactly size-matched.
 - No activation patching or probing, so the exploratory explanation in §5 is a hypothesis.
+- *Added after the run:* the attention arm was weaker than the recipe known to work for NoPE models. Wang et al.
+  (2024) scale attention at **all** positions by 1.2× / 1.5× / 1.8× for 2× / 4× / 8× length. The pre-registered
+  policy here scaled only positions ≥ 128, by at most 1.43×. "Attention temperature helps little" therefore holds
+  for this policy, not for attention-side fixes in general. I missed this paper when designing the pilot.
 
 ## Relation to prior work
 
@@ -137,6 +141,11 @@ review's objection that matching marginal distributions does not guarantee an ac
   log-length temperature recovers only 3–7 pp. The dominant failure looks position-related: records past the
   trained length are lost even at short distance. That is closer to their implicit-position factor, now in a NoPE
   model.
+- **Wang et al., "Length Generalization of Causal Transformers without Position Encoding" (2024; missed at design
+  time).** In a 1.1B NoPE language model, failure beyond the training length coincides with rising attention
+  entropy ("attention distraction"). Uniform or per-head temperature scaling extends the usable context. This is
+  the main competing explanation for the §5 finding, and the pilot's attention arm did not test it at their
+  strength.
 - **Han & Ji (ACL 2025)** find that attention logits split into roughly additive positional and semantic parts,
   and that length-extrapolation methods work by keeping attention outputs in distribution. The present pilot is
   complementary but small. Forcing FFN and residual statistics back in distribution was not enough when the
