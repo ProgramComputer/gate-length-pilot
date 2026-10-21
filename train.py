@@ -20,6 +20,12 @@ p.add_argument("--lr", type=float, default=1e-3)
 p.add_argument("--warmup", type=int, default=500)
 p.add_argument("--eval-every", type=int, default=500)
 p.add_argument(
+    "--pos",
+    choices=("nope", "rope"),
+    default="nope",
+    help="positional scheme (rope = pilot 2 control)",
+)
+p.add_argument(
     "--curriculum",
     type=float,
     default=0.0,
@@ -32,7 +38,7 @@ args = p.parse_args()
 torch.manual_seed(args.seed)
 gen = torch.Generator().manual_seed(args.seed)
 dev = torch.device(args.device)
-model = Model().to(dev)
+model = Model(pos=args.pos).to(dev)
 n_params = sum(p.numel() for p in model.parameters())
 opt = torch.optim.AdamW(model.parameters(), lr=args.lr, betas=(0.9, 0.98), weight_decay=0.01)
 sched = torch.optim.lr_scheduler.LambdaLR(

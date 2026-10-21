@@ -32,7 +32,7 @@ args = p.parse_args()
 
 dev = torch.device(args.device)
 ckpt = torch.load(Path(args.runs) / f"seed{args.seed}" / "model.pt", map_location="cpu")
-model = Model()
+model = Model(pos=ckpt.get("args", {}).get("pos", "nope"))
 model.load_state_dict(ckpt["state"])
 model.eval().to(dev)
 pairs = [(site, layer) for site in SITES for layer in range(len(model.blocks))]

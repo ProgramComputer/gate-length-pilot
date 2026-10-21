@@ -17,8 +17,9 @@ def log_length_scale(T: int) -> torch.Tensor:
 
 
 class Intervention:
-    def __init__(self, attn_temp: bool = False) -> None:
+    def __init__(self, attn_temp: bool = False, uniform_temp: float | None = None) -> None:
         self.attn_temp = attn_temp
+        self.uniform_temp = uniform_temp
         self.affine = {}
         self.record = set()
         self.record_roles = ()
@@ -33,6 +34,8 @@ class Intervention:
         self.observed[name, layer].append(value.float().cpu())
 
     def logit_scale(self, T: int) -> torch.Tensor | None:
+        if self.uniform_temp is not None:
+            return torch.full((T,), float(self.uniform_temp))
         return log_length_scale(T) if self.attn_temp else None
 
     def begin(self, seq: torch.Tensor) -> None:
