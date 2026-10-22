@@ -169,6 +169,11 @@ after any intervention result was seen.
   lr 1e-3 and everything else as in §4. The probe with exactly this recipe (seed 97) reached 99.3% length-128
   validation accuracy at 40k steps. Probe seeds 94–99 are not used in any analysis. Training also logs
   accuracy on short inputs (≤ 8 records) as a learning monitor. Nothing else in §5–§10 changes.
+- **Correction (2026-10-22, after the results, from the independent audit in `AUDIT.md`).** §7 says the sham's
+  perturbation size "has the same distribution as the real correction's". That holds only for the first layer.
+  Because the sham is refit layer by layer under its own upstream changes, its later-layer adjustments came out
+  1.18–1.62× the real correction's size. RESULTS.md already reported this. G1 and G3 fail independently, so the
+  ABANDON verdict does not depend on it.
 
 ## 12. Out of scope for this pilot
 

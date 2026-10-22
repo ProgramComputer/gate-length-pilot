@@ -79,4 +79,15 @@ Verdict: **NOPE-SPECIFIC BREAK** (B1 and B2), **BREAKS IN BOTH** (B1 only), or *
 
 ## Deviations
 
-- *(none yet)*
+Added 2026-10-22, after the results, from the independent audit in `AUDIT.md`. None changes a number or verdict.
+
+- **Test inputs.** Part A promised the pilot-1 test sets. `pilot3.py` called the generator with lengths (128, 1024)
+  instead of all four. That changes the random draws, so the length-1024 inputs are a different realization from
+  pilot 1's: same seeds, same answers and short inputs, but different long sequences. Comparisons within this
+  pilot remain paired. Long-input numbers are not on the identical examples used by pilots 1–2.
+- **Tie rule.** `report3.py` chose the semantic direction when the two worsening factors were *equal* (`>=`).
+  The registration says semantic only when the semantic factor is *larger*. The saved factors are far from a tie.
+  The code now matches the registration, and the verdict is unchanged.
+- **Interpretation limits of B,** not a procedural deviation. In this task keys and values alternate, so the
+  fitted a(i−j) also absorbs key/value role effects: a content-only role interaction produces the same profile
+  (`AUDIT.md`, issue 1). The "share" of a(i−j) is a variance ratio, not a variance partition (issue 6).

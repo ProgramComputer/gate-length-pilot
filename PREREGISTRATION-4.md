@@ -59,4 +59,14 @@ Verdict:
 
 ## Deviations
 
-- *(none yet)*
+Added 2026-10-22, after the results, from the independent audit in `AUDIT.md`. None changes a number or verdict.
+
+- **Test inputs.** The registration promised the pilot-1 test sets. `pilot4.py` called the generator with lengths
+  (128, 1024) instead of all four. That changes the random draws, so the length-1024 inputs are a different
+  realization from pilot 1's (same seeds, answers and short inputs). All comparisons within this pilot remain
+  paired.
+- **Statistics helper.** `report.py`'s table of t quantiles stopped at five seeds. The df = 5 value (2.571) was
+  added after the run so the six-seed confidence interval could be printed. It is only used for the reported
+  ±; the D1–D3 criteria do not use it.
+- **What D3 shows.** D3 checks that the *key* is decodable after the patch. It does not localize the remaining
+  error to the query side (`AUDIT.md`, issue 7).

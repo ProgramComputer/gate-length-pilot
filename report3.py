@@ -68,7 +68,7 @@ def decision() -> None:
         d128, d1024 = r["diagnostics"]["128"], r["diagnostics"]["1024"]
         sem_worse = (1 - d1024["semantic_score"]) / max(1e-9, 1 - d128["semantic_score"])
         pos_worse = d128["positional_score"] / max(1e-9, d1024["positional_score"])
-        directions.append("semantic" if sem_worse >= pos_worse else "positional")
+        directions.append("semantic" if sem_worse > pos_worse else "positional")
         heads = "; ".join(f"{l}.{h} {t} {w:.2f}" for l, h, t, w in r["heads"])
         out.append(
             f"| {r['seed']} | {heads} | "

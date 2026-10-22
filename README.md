@@ -20,6 +20,12 @@ attention-side failure explains?**
 **Where things stand:** RESULTS-4.md has a one-table summary of all four pilots. The series stopped after pilot 4,
 as pre-registered.
 
+**Independent audit:** [AUDIT.md](AUDIT.md), with its checks in `audit/`. A separate AI (Codex, OpenAI)
+re-implemented pilot 4 from its registration without seeing this code or results first, and reproduced its
+numbers seed by seed. It also reproduced all four verdicts, found no error that changes one, and listed where the
+write-ups overreached. The write-ups and the registrations' deviation sections were corrected on 2026-10-22 to
+match the audit. No number or verdict changed.
+
 ## Layout
 
 | file | what it is |

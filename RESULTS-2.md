@@ -15,7 +15,7 @@ Full tables: [results2/decision.md](results2/decision.md). Compute: 0.76 GPU-hou
 Pilot 1 found that in the NoPE model, records placed beyond token position 128 are lost. Two explanations compete:
 
 - **Position loss.** NoPE's only position signal comes from the causal mask and fades with length. Past 128 the
-  model can't tie a value to the key just before it (the *binding*), so the information is missing.
+  model can't tie a value to the key just before it (the *binding*).
 - **Attention distraction** (Wang et al., 2024). The information is there but attention spreads too thin, and
   sharper attention would fix it.
 
@@ -49,8 +49,9 @@ never seen in training (LM-Infinite). Both models solve length 128 (NoPE 99.8%, 
 
 Chance is 0.2%. The layer-0 control sits at chance, as it should.
 
-- **NoPE:** even a probe retrained on the far positions decodes almost nothing (0.3–3.9% per seed). This points
-  to missing information, not information stored in a new format.
+- **NoPE:** even a probe retrained on the far positions decodes almost nothing (0.3–3.9% per seed). So the
+  binding is not *linearly decodable* far away, which is more than a change of linear format. A linear probe
+  cannot show that the information is absent; non-linearly stored information would be missed (`AUDIT.md`, issue 3).
 - **RoPE:** keeps half the binding far away, but in a shifted format. The retrained probe gets 48%, while the
   in-range probe transferred to the same positions gets 15%. One RoPE seed keeps only 37.5% against 96% in range,
   which is below the pre-registered "at least half" bar. That is why P3 failed.
@@ -66,17 +67,20 @@ in-range binding. RoPE was unaffected by temperature.
 
 ## Reading it honestly
 
-- What the data support: in this NoPE model, records past the trained length lose their key–value binding, and a
-  standard attention-sharpening fix does not restore it. That fits *position loss* better than *attention
-  distraction*.
+- What the data support: in this NoPE model, past the trained length the key–value binding is no longer
+  linearly decodable, and a standard attention-sharpening fix does not restore it. That fits *position loss*
+  better than *attention distraction*.
 - What they don't support: a clean claim that this is specific to NoPE's implicit positions. RoPE's binding also
   fades with distance from the start (in a different, partly recoverable form), and the pre-registered rule says
   MIXED. Treat "position loss" as the leading hypothesis, not a result.
 
 ## Limitations
 
-- **Probe:** linear (ridge). Non-linear information could be missed, but the in-range probe works (90%+), and a
-  probe retrained at far positions also fails for NoPE.
+- **Probe:** linear (ridge). Non-linear information could be missed. The in-range probe works (90%+) and a probe
+  retrained at far positions also fails for NoPE, but neither rules out a non-linear code far away. The MLP
+  fallback only triggers when the in-range probe fails, so it never tested the far positions.
+- **Independent audit:** `AUDIT.md` reproduces this pilot's verdict from the saved results and spot-checks saved
+  predictions against the checkpoints (no mismatches).
 - **Temperature:** four uniform values only. Wang et al. also train per-head scales on long data, which was not
   tested.
 - **RoPE control:** trained with the recipe tuned for NoPE. Heads that look across distances never seen in
@@ -89,8 +93,8 @@ in-range binding. RoPE was unaffected by temperature.
 - **Wang et al. (2024):** uniform temperature extends NoPE language models. Here it did not rescue binding on a
   precise retrieval task, and it hurt in-range accuracy.
 - **Kazemnejad et al. (2023); Dawes et al. (2026):** NoPE's implicit position comes from the causal mask and
-  fades with length. This pilot measures a concrete consequence on a retrieval task: the key–value binding
-  disappears past the trained length.
+  fades with length. This pilot measures a consequence consistent with that on a retrieval task: past the trained
+  length, the key–value binding stops being linearly decodable.
 - **LM-Infinite (Han et al., 2024):** relative distances never seen in training break RoPE models. RoPE's
   failure on the "after" placement here fits that.
 - **Han & Ji (ACL 2025):** attention logits split roughly into a positional part plus a semantic part. The two
