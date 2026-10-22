@@ -1,0 +1,7 @@
+Diagnostic run after the feasibility gate failed (logs/diag5.py, 50 inputs per row, seed 7), copied from the console:
+records 10 tokens 47 restricted 0.7 full 0.26
+records 50 tokens 167 restricted 0.4 full 0.16
+records 100 tokens 317 restricted 0.42 full 0.06
+records 200 tokens 617 restricted 0.4 full 0.02
+records 400 tokens 1217 restricted 0.22 full 0.0
+tail: 'dimensions\n unders apenas\n containing corrected\n chanson' | answer: 'train' | top5: ['\n', 'train', 'de', 'the', 'in']

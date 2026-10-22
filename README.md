@@ -20,6 +20,10 @@ attention-side failure explains?**
 **Where things stand:** RESULTS-4.md has a one-table summary of all four pilots. The series stopped after pilot 4,
 as pre-registered.
 
+**Pilot 5** (new study: does pilot 4 hold in Wang et al.'s real 1.1B NoPE model?): [PREREGISTRATION-5.md](PREREGISTRATION-5.md)
+and [RESULTS-5.md](RESULTS-5.md). Code: `pilot5.py`, `report5.py`. Verdict: NOT TESTABLE. The model cannot do the
+task reliably even inside its training length, so the real-model question remains open.
+
 **Independent audit:** [AUDIT.md](AUDIT.md), with its checks in `audit/`. A separate AI (Codex, OpenAI)
 re-implemented pilot 4 from its registration without seeing this code or results first, and reproduced its
 numbers seed by seed. It also reproduced all four verdicts, found no error that changes one, and listed where the

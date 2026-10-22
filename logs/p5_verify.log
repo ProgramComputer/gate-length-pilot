@@ -1,0 +1,4 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+6915 key words, 512 value words, preamble 16 tokens
+{"lm_loss_nats": 2.085221767425537, "max_abs_logit_diff_vs_reference": 0.6049709320068359, "argmax_agreement_vs_reference": 1.0}
+wrote results5/verify.json (1097s)
