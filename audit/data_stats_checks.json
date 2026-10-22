@@ -1,0 +1,99 @@
+{
+  "data": {
+    "uniform": "1000 examples x four lengths: keys, labels, pairing, distances, patch positions PASS",
+    "before": "1000 examples x four lengths: keys, labels, pairing, distances, patch positions PASS",
+    "after": "1000 examples x four lengths: keys, labels, pairing, distances, patch positions PASS"
+  },
+  "saved_json_consistency": {
+    "results": {
+      "files": 6,
+      "scored_conditions": 288,
+      "accuracy_vs_bitstring_errors": [],
+      "distance_mismatches_from_pilot1": []
+    },
+    "results2": {
+      "files": 6,
+      "scored_conditions": 288,
+      "accuracy_vs_bitstring_errors": [],
+      "distance_mismatches_from_pilot1": []
+    },
+    "results3": {
+      "files": 9,
+      "scored_conditions": 96,
+      "accuracy_vs_bitstring_errors": [],
+      "distance_mismatches_from_pilot1": []
+    },
+    "results4": {
+      "files": 6,
+      "scored_conditions": 72,
+      "accuracy_vs_bitstring_errors": [],
+      "distance_mismatches_from_pilot1": [
+        [
+          "seed0.json",
+          "uniform/1024",
+          961,
+          "matches reduced-length generator"
+        ],
+        [
+          "seed1.json",
+          "uniform/1024",
+          961,
+          "matches reduced-length generator"
+        ],
+        [
+          "seed2.json",
+          "uniform/1024",
+          961,
+          "matches reduced-length generator"
+        ],
+        [
+          "seed3.json",
+          "uniform/1024",
+          961,
+          "matches reduced-length generator"
+        ],
+        [
+          "seed4.json",
+          "uniform/1024",
+          961,
+          "matches reduced-length generator"
+        ],
+        [
+          "seed5.json",
+          "uniform/1024",
+          961,
+          "matches reduced-length generator"
+        ]
+      ]
+    }
+  },
+  "test_set_identity": {
+    "uniform": {
+      "short_identical": true,
+      "long_identical_rows": 0,
+      "answers_identical": true,
+      "long_distance_equal_rows": 39
+    },
+    "before": {
+      "short_identical": true,
+      "long_identical_rows": 0,
+      "answers_identical": true,
+      "long_distance_equal_rows": 1000
+    },
+    "after": {
+      "short_identical": true,
+      "long_identical_rows": 0,
+      "answers_identical": true,
+      "long_distance_equal_rows": 1000
+    }
+  },
+  "probe_split_and_labels": "12 inputs, 768 labelled rows; preceding-key labels and sequence-level split PASS",
+  "statistics": {
+    "paired_bootstrap_matches_signed_difference": [
+      -0.2857142857142857,
+      0.5714285714285714
+    ],
+    "three_seed_t_mean": 2.3333333333333335,
+    "three_seed_t_halfwidth": 3.794889297170311
+  }
+}

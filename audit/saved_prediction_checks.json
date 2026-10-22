@@ -1,0 +1,81 @@
+{
+  "test_indices": [
+    24,
+    113,
+    189,
+    269,
+    279,
+    298,
+    317,
+    432,
+    584,
+    647,
+    740,
+    835
+  ],
+  "groups": {
+    "pilot2_nope_seed0": {
+      "predictions_checked": 96,
+      "mismatches": []
+    },
+    "pilot2_nope_seed1": {
+      "predictions_checked": 96,
+      "mismatches": []
+    },
+    "pilot2_nope_seed2": {
+      "predictions_checked": 96,
+      "mismatches": []
+    },
+    "pilot2_rope_seed0": {
+      "predictions_checked": 96,
+      "mismatches": []
+    },
+    "pilot3a_rope_seed0": {
+      "predictions_checked": 96,
+      "mismatches": []
+    },
+    "pilot2_rope_seed1": {
+      "predictions_checked": 96,
+      "mismatches": []
+    },
+    "pilot3a_rope_seed1": {
+      "predictions_checked": 96,
+      "mismatches": []
+    },
+    "pilot2_rope_seed2": {
+      "predictions_checked": 96,
+      "mismatches": []
+    },
+    "pilot3a_rope_seed2": {
+      "predictions_checked": 96,
+      "mismatches": []
+    },
+    "pilot4_nope_seed0": {
+      "predictions_checked": 36,
+      "mismatches": []
+    },
+    "pilot4_nope_seed1": {
+      "predictions_checked": 36,
+      "mismatches": []
+    },
+    "pilot4_nope_seed2": {
+      "predictions_checked": 36,
+      "mismatches": []
+    },
+    "pilot4_nope_seed3": {
+      "predictions_checked": 36,
+      "mismatches": []
+    },
+    "pilot4_nope_seed4": {
+      "predictions_checked": 36,
+      "mismatches": []
+    },
+    "pilot4_nope_seed5": {
+      "predictions_checked": 36,
+      "mismatches": []
+    }
+  },
+  "pilot1_vs_pilot2_all_baseline_bitstrings_identical": true,
+  "total_predictions_checked": 1080,
+  "total_mismatches": 0
+}

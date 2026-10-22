@@ -1,0 +1,123 @@
+{
+  "probe_counterexample": {
+    "linear_accuracy": 0.5,
+    "product_feature_accuracy": 1.0,
+    "label_is_deterministic_function_of_representation": true
+  },
+  "fixed_predecessor_logit_counterexample": {
+    "positions": [
+      96,
+      192,
+      384,
+      768
+    ],
+    "unchanged_predecessor_logit_advantage": 4.1588830833596715,
+    "previous_token_attention": [
+      0.4,
+      0.25,
+      0.14285714285714285,
+      0.07692307692307691
+    ],
+    "satisfies_far_less_than_half_inside": true
+  },
+  "unlocalized_residual_error_counterexample": {
+    "key_binding_probe_accuracy": 1.0,
+    "answer_accuracy_of_perfect_reader_of_corrupted_stored_values": 0.0
+  },
+  "direction_tie": {
+    "semantic_factor": 2.0,
+    "positional_factor": 2.0,
+    "code_direction": "semantic",
+    "registered_direction": "positional",
+    "actual_data_factors": [
+      {
+        "seed": 0,
+        "semantic": 146100000.0,
+        "positional": 0.7792688570106432,
+        "diagnosed_token_types": [
+          "value",
+          "value"
+        ]
+      },
+      {
+        "seed": 1,
+        "semantic": 112700000.00000001,
+        "positional": 0.9123904881101376,
+        "diagnosed_token_types": [
+          "value",
+          "value"
+        ]
+      },
+      {
+        "seed": 2,
+        "semantic": 88600000.0,
+        "positional": 0.9372496662216289,
+        "diagnosed_token_types": [
+          "value",
+          "value"
+        ]
+      }
+    ]
+  },
+  "saved_pilot4_claims": [
+    {
+      "seed": 0,
+      "none": 0.015,
+      "patch": 0.979,
+      "sham": 0.011,
+      "patch_gain_pp": 96.39999999999999,
+      "individual_selected_head_inside_attention_min": 0.684,
+      "individual_selected_head_inside_attention_max": 0.6985
+    },
+    {
+      "seed": 1,
+      "none": 0.019,
+      "patch": 0.84,
+      "sham": 0.012,
+      "patch_gain_pp": 82.1,
+      "individual_selected_head_inside_attention_min": 0.317,
+      "individual_selected_head_inside_attention_max": 0.8446
+    },
+    {
+      "seed": 2,
+      "none": 0.014,
+      "patch": 0.2,
+      "sham": 0.015,
+      "patch_gain_pp": 18.6,
+      "individual_selected_head_inside_attention_min": 0.9191,
+      "individual_selected_head_inside_attention_max": 0.9451
+    },
+    {
+      "seed": 3,
+      "none": 0.016,
+      "patch": 0.987,
+      "sham": 0.012,
+      "patch_gain_pp": 97.1,
+      "individual_selected_head_inside_attention_min": 0.3037,
+      "individual_selected_head_inside_attention_max": 0.8482
+    },
+    {
+      "seed": 4,
+      "none": 0.018,
+      "patch": 0.984,
+      "sham": 0.012,
+      "patch_gain_pp": 96.6,
+      "individual_selected_head_inside_attention_min": 0.3042,
+      "individual_selected_head_inside_attention_max": 0.8253
+    },
+    {
+      "seed": 5,
+      "none": 0.018,
+      "patch": 0.579,
+      "sham": 0.015,
+      "patch_gain_pp": 56.099999999999994,
+      "individual_selected_head_inside_attention_min": 0.5926,
+      "individual_selected_head_inside_attention_max": 0.6193
+    }
+  ],
+  "identical_rows_between_named_sets": {
+    "cal/chk": 0,
+    "cal/test": 0,
+    "chk/test": 0
+  }
+}

@@ -1,0 +1,136 @@
+{
+  "seeds": [
+    {
+      "seed": 0,
+      "claimed_accuracy_percent": {
+        "none": 1.5,
+        "patch": 97.89999999999999,
+        "sham": 1.0999999999999999
+      },
+      "audit_accuracy_percent": {
+        "none": 3.5000000000000004,
+        "patch": 97.5,
+        "sham": 1.5
+      },
+      "claimed_gain_pp": 96.39999999999999,
+      "audit_gain_pp": 94.0,
+      "audit_paired_bootstrap_gain_ci_pp": [
+        90.5,
+        97.0
+      ],
+      "audit_far_inside_attention_ratio": 0.040326913098468226
+    },
+    {
+      "seed": 1,
+      "claimed_accuracy_percent": {
+        "none": 1.9,
+        "patch": 84.0,
+        "sham": 1.2
+      },
+      "audit_accuracy_percent": {
+        "none": 1.0,
+        "patch": 84.5,
+        "sham": 0.5
+      },
+      "claimed_gain_pp": 82.1,
+      "audit_gain_pp": 83.5,
+      "audit_paired_bootstrap_gain_ci_pp": [
+        78.0,
+        88.5
+      ],
+      "audit_far_inside_attention_ratio": 0.03766588218156114
+    },
+    {
+      "seed": 2,
+      "claimed_accuracy_percent": {
+        "none": 1.4000000000000001,
+        "patch": 20.0,
+        "sham": 1.5
+      },
+      "audit_accuracy_percent": {
+        "none": 0.5,
+        "patch": 19.0,
+        "sham": 1.5
+      },
+      "claimed_gain_pp": 18.6,
+      "audit_gain_pp": 18.5,
+      "audit_paired_bootstrap_gain_ci_pp": [
+        13.5,
+        24.0
+      ],
+      "audit_far_inside_attention_ratio": 0.009505614410518351
+    },
+    {
+      "seed": 3,
+      "claimed_accuracy_percent": {
+        "none": 1.6,
+        "patch": 98.7,
+        "sham": 1.2
+      },
+      "audit_accuracy_percent": {
+        "none": 1.0,
+        "patch": 99.0,
+        "sham": 1.0
+      },
+      "claimed_gain_pp": 97.10000000000001,
+      "audit_gain_pp": 98.0,
+      "audit_paired_bootstrap_gain_ci_pp": [
+        96.0,
+        99.5
+      ],
+      "audit_far_inside_attention_ratio": 0.051033179361447155
+    },
+    {
+      "seed": 4,
+      "claimed_accuracy_percent": {
+        "none": 1.7999999999999998,
+        "patch": 98.4,
+        "sham": 1.2
+      },
+      "audit_accuracy_percent": {
+        "none": 1.5,
+        "patch": 99.0,
+        "sham": 1.0
+      },
+      "claimed_gain_pp": 96.60000000000001,
+      "audit_gain_pp": 97.5,
+      "audit_paired_bootstrap_gain_ci_pp": [
+        95.0,
+        99.5
+      ],
+      "audit_far_inside_attention_ratio": 0.028940170637457633
+    },
+    {
+      "seed": 5,
+      "claimed_accuracy_percent": {
+        "none": 1.7999999999999998,
+        "patch": 57.9,
+        "sham": 1.5
+      },
+      "audit_accuracy_percent": {
+        "none": 2.0,
+        "patch": 55.00000000000001,
+        "sham": 0.5
+      },
+      "claimed_gain_pp": 56.1,
+      "audit_gain_pp": 53.00000000000001,
+      "audit_paired_bootstrap_gain_ci_pp": [
+        46.0,
+        60.0
+      ],
+      "audit_far_inside_attention_ratio": 0.0513787740622446
+    }
+  ],
+  "mean_claimed_accuracy_percent": {
+    "none": 1.6666666666666667,
+    "patch": 76.14999999999999,
+    "sham": 1.2833333333333334
+  },
+  "mean_audit_accuracy_percent": {
+    "none": 1.5833333333333333,
+    "patch": 75.66666666666667,
+    "sham": 1.0
+  },
+  "audit_D1": true,
+  "audit_D2": true
+}

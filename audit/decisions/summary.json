@@ -1,0 +1,27 @@
+{
+  "report.py": {
+    "verdict_lines": [
+      "## Verdict: **ABANDON**"
+    ],
+    "matches_saved_decision_text": true
+  },
+  "report2.py": {
+    "verdict_lines": [
+      "## Verdict: **MIXED**"
+    ],
+    "matches_saved_decision_text": true
+  },
+  "report3.py": {
+    "verdict_lines": [
+      "### Verdict A: **DETECTS BUT DOES NOT FIX**",
+      "### Verdict B: **NO BREAK IN NOPE**"
+    ],
+    "matches_saved_decision_text": true
+  },
+  "report4.py": {
+    "verdict_lines": [
+      "## Verdict: **BINDING ATTENTION IS THE BOTTLENECK**"
+    ],
+    "matches_saved_decision_text": true
+  }
+}

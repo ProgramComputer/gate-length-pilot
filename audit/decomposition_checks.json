@@ -1,0 +1,120 @@
+{
+  "role_only_counterexample": {
+    "corr_inside": 1.0,
+    "share_inside": 0.9998806524936591,
+    "corr_far": 1.0,
+    "share_far": 0.999816883354649,
+    "corr_transfer": 1.0,
+    "rho_a": 1.0,
+    "all_keys_have_identical_features": true
+  },
+  "non_partition_counterexample": {
+    "perfect_additive_model_fit_corr": 1.0,
+    "reported_a_share": 1.2007606039883603
+  },
+  "known_model_30_rounds": {
+    "fit_corr": 1.0,
+    "detrended_a_corr_truth": 0.9999999999999999
+  },
+  "selected_heads": [
+    {
+      "pos": "nope",
+      "seed": 0,
+      "head": "3.3",
+      "registered_mean_per_example_rho": 0.862,
+      "rho_of_saved_mean_profiles": 0.9276810008150814,
+      "inside_parity_r_squared": 0.8746762635316446,
+      "far_parity_r_squared": 0.9991963514772306,
+      "share_inside": 0.1248,
+      "share_far": 0.1165,
+      "selected_head_is_binding_head": false,
+      "selected_head_previous_attention_by_window": [
+        0.0121,
+        0.0057,
+        0.003,
+        0.0014
+      ]
+    },
+    {
+      "pos": "nope",
+      "seed": 1,
+      "head": "2.0",
+      "registered_mean_per_example_rho": 0.871,
+      "rho_of_saved_mean_profiles": 0.8942830529800252,
+      "inside_parity_r_squared": 0.7941467666237744,
+      "far_parity_r_squared": 0.9996359312619839,
+      "share_inside": 0.4032,
+      "share_far": 0.8602,
+      "selected_head_is_binding_head": true,
+      "selected_head_previous_attention_by_window": [
+        0.8446,
+        0.4956,
+        0.1423,
+        0.0295
+      ]
+    },
+    {
+      "pos": "nope",
+      "seed": 2,
+      "head": "1.2",
+      "registered_mean_per_example_rho": 0.999,
+      "rho_of_saved_mean_profiles": 0.9993546682414058,
+      "inside_parity_r_squared": 0.998423330409797,
+      "far_parity_r_squared": 0.9998075442376252,
+      "share_inside": 0.8254,
+      "share_far": 0.9291,
+      "selected_head_is_binding_head": false,
+      "selected_head_previous_attention_by_window": [
+        0.0177,
+        0.0083,
+        0.0039,
+        0.0019
+      ]
+    },
+    {
+      "pos": "rope",
+      "seed": 0,
+      "head": "1.2",
+      "registered_mean_per_example_rho": 0.9716,
+      "rho_of_saved_mean_profiles": 0.9825525039833841,
+      "inside_parity_r_squared": 0.0022216799221942713,
+      "far_parity_r_squared": 0.0013039679884770696,
+      "share_inside": 0.4138,
+      "share_far": 0.4096
+    },
+    {
+      "pos": "rope",
+      "seed": 1,
+      "head": "1.1",
+      "registered_mean_per_example_rho": 0.9867,
+      "rho_of_saved_mean_profiles": 0.9971633752693695,
+      "inside_parity_r_squared": 0.3567012906847976,
+      "far_parity_r_squared": 0.33462443574873335,
+      "share_inside": 0.3678,
+      "share_far": 0.349
+    },
+    {
+      "pos": "rope",
+      "seed": 2,
+      "head": "1.2",
+      "registered_mean_per_example_rho": 0.9806,
+      "rho_of_saved_mean_profiles": 0.9918959152683264,
+      "inside_parity_r_squared": 0.11816916083874296,
+      "far_parity_r_squared": 0.09248690249473897,
+      "share_inside": 0.3318,
+      "share_far": 0.2969
+    }
+  ],
+  "saved_share_ranges": {
+    "nope": {
+      "min_a_share": 0.0001,
+      "max_a_share": 0.9291,
+      "number_shares_above_one": 0
+    },
+    "rope": {
+      "min_a_share": 0.0072,
+      "max_a_share": 0.4138,
+      "number_shares_above_one": 0
+    }
+  }
+}

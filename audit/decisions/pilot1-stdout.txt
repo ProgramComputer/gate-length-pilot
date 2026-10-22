@@ -1,0 +1,57 @@
+# Pre-registered decision
+
+Seeds: [0, 1, 2]
+
+## Sanity gate (baseline, uniform placement)
+
+| seed | acc@128 | acc@1024 | passes |
+|---|---|---|---|
+| 0 | 0.995 | 0.046 | yes |
+| 1 | 1.000 | 0.081 | yes |
+| 2 | 1.000 | 0.173 | yes |
+
+## Criteria (uniform placement; pp = percentage points)
+
+| criterion | L | mean diff (pp) ± seed 95% CI | per-seed diff [bootstrap 95% CI] | pass |
+|---|---|---|---|---|
+| G1: gate − none ≥ 10 | 512 | +7.1 ± 9.6 | +8.9 [+6.0, +11.8]; +9.8 [+7.5, +12.0]; +2.7 [+0.9, +4.6] | fail |
+| G1: gate − none ≥ 10 | 1024 | +6.8 ± 10.1 | +10.0 [+7.9, +12.1]; +8.2 [+6.2, +10.2]; +2.2 [+0.6, +3.8] | fail |
+| G2: gate − sham ≥ 5 | 512 | +5.9 ± 9.4 | +5.4 [+2.7, +8.1]; +9.9 [+7.6, +12.2]; +2.4 [+0.3, +4.5] | PASS |
+| G2: gate − sham ≥ 5 | 1024 | +4.8 ± 9.6 | +6.9 [+4.8, +8.9]; +7.1 [+5.2, +9.1]; +0.3 [-1.3, +1.9] | fail |
+| G3a: gate − up ≥ 5 | 512 | +1.2 ± 4.1 | +1.7 [-0.4, +3.7]; +2.5 [+0.6, +4.3]; -0.7 [-2.3, +1.0] | fail |
+| G3a: gate − up ≥ 5 | 1024 | +0.9 ± 5.7 | +1.5 [+0.3, +2.7]; +2.9 [+1.3, +4.5]; -1.6 [-3.1, -0.1] | fail |
+| G3b: gate − resid ≥ 5 | 512 | +16.7 ± 13.7 | +10.7 [+8.4, +13.1]; +17.9 [+15.1, +20.8]; +21.5 [+18.9, +24.1] | PASS |
+| G3b: gate − resid ≥ 5 | 1024 | +3.9 ± 6.2 | +2.3 [+0.8, +3.9]; +2.7 [+0.5, +5.0]; +6.8 [+4.9, +8.8] | fail |
+| G4: gate+attn − attn ≥ 5 | 512 | +7.6 ± 9.8 | +11.7 [+8.7, +14.8]; +7.3 [+4.8, +9.9]; +3.8 [+1.8, +5.9] | PASS |
+| G4: gate+attn − attn ≥ 5 | 1024 | +6.2 ± 10.7 | +10.5 [+8.1, +13.0]; +6.1 [+4.1, +8.1]; +1.9 [+0.2, +3.5] | PASS |
+| (descriptive) attn vs none | 512 | +6.8 ± 14.3 | +1.8; +13.1; +5.5 | – |
+| (descriptive) attn vs none | 1024 | +3.2 ± 4.0 | +1.7; +4.9; +2.9 | – |
+| (descriptive) up vs none | 512 | +6.0 ± 5.5 | +7.2; +7.3; +3.4 | – |
+| (descriptive) up vs none | 1024 | +5.9 ± 6.0 | +8.5; +5.3; +3.8 | – |
+| (descriptive) resid vs none | 512 | -9.6 ± 21.4 | -1.8; -8.1; -18.8 | – |
+| (descriptive) resid vs none | 1024 | +2.9 ± 16.3 | +7.7; +5.5; -4.6 | – |
+| (descriptive) sham vs none | 512 | +1.2 ± 4.9 | +3.5; -0.1; +0.3 | – |
+| (descriptive) sham vs none | 1024 | +2.0 ± 2.5 | +3.1; +1.1; +1.9 | – |
+
+## Manipulation checks (held-out check set, query position, mean over layers)
+
+| correction | site | L | discrepancy none → corrected (per seed) | reduction ≥ 50% |
+|---|---|---|---|---|
+| gate | gate | 512 | 1.155 → 0.069; 0.590 → 0.046; 1.152 → 0.048 | yes |
+| gate | gate | 1024 | 1.391 → 0.086; 0.718 → 0.043; 1.421 → 0.057 | yes |
+| gate+attn | gate | 512 | 1.155 → 0.064; 0.590 → 0.040; 1.152 → 0.046 | yes |
+| gate+attn | gate | 1024 | 1.391 → 0.082; 0.718 → 0.041; 1.421 → 0.061 | yes |
+| up | up | 512 | 1.048 → 0.076; 0.551 → 0.049; 1.130 → 0.043 | yes |
+| up | up | 1024 | 1.258 → 0.072; 0.671 → 0.043; 1.394 → 0.050 | yes |
+| resid | resid | 512 | 0.829 → 0.045; 0.662 → 0.045; 0.867 → 0.029 | yes |
+| resid | resid | 1024 | 1.007 → 0.058; 0.774 → 0.044; 1.138 → 0.035 | yes |
+| sham | gate | 512 | 1.155 → 1.284; 0.590 → 0.649; 1.152 → 1.565 | no |
+| sham | gate | 1024 | 1.391 → 1.582; 0.718 → 0.786; 1.421 → 1.947 | no |
+| attn | query attention entropy (nats; short ref.) | 512 | 5.02 → 4.66 (2.96); 4.32 → 4.02 (2.10); 4.15 → 3.99 (2.75) | – |
+| attn | query attention entropy (nats; short ref.) | 1024 | 5.80 → 5.27 (2.96); 5.31 → 5.01 (2.10); 4.66 → 4.54 (2.75) | – |
+
+Short-length check (every condition within 1 pp of none at 128): yes
+Secondary strict criterion (gate − none ≥ 20 pp at 512 and 1024 in every seed): not met
+
+## Verdict: **ABANDON**
+

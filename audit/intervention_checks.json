@@ -1,0 +1,117 @@
+{
+  "patch_comparison": [
+    {
+      "seed": 0,
+      "same_heads": true,
+      "max_abs_logit_error": {
+        "none": 0.0,
+        "patch": 0.0,
+        "sham": 0.0
+      },
+      "short_condition_max_error": 0.0
+    },
+    {
+      "seed": 1,
+      "same_heads": true,
+      "max_abs_logit_error": {
+        "none": 0.0,
+        "patch": 0.0,
+        "sham": 0.0
+      },
+      "short_condition_max_error": 0.0
+    },
+    {
+      "seed": 2,
+      "same_heads": true,
+      "max_abs_logit_error": {
+        "none": 0.0,
+        "patch": 0.0,
+        "sham": 0.0
+      },
+      "short_condition_max_error": 0.0
+    },
+    {
+      "seed": 3,
+      "same_heads": true,
+      "max_abs_logit_error": {
+        "none": 0.0,
+        "patch": 0.0,
+        "sham": 0.0
+      },
+      "short_condition_max_error": 0.0
+    },
+    {
+      "seed": 4,
+      "same_heads": true,
+      "max_abs_logit_error": {
+        "none": 0.0,
+        "patch": 0.0,
+        "sham": 0.0
+      },
+      "short_condition_max_error": 0.0
+    },
+    {
+      "seed": 5,
+      "same_heads": true,
+      "max_abs_logit_error": {
+        "none": 0.0,
+        "patch": 0.0,
+        "sham": 0.0
+      },
+      "short_condition_max_error": 0.0
+    }
+  ],
+  "sham_saved_standardized_size_ratio": [
+    {
+      "seed": 0,
+      "length": 512,
+      "sham_over_gate": 1.4234080876479553
+    },
+    {
+      "seed": 0,
+      "length": 1024,
+      "sham_over_gate": 1.6145472236609202
+    },
+    {
+      "seed": 1,
+      "length": 512,
+      "sham_over_gate": 1.3696463402100734
+    },
+    {
+      "seed": 1,
+      "length": 1024,
+      "sham_over_gate": 1.3009126584759103
+    },
+    {
+      "seed": 2,
+      "length": 512,
+      "sham_over_gate": 1.1984567835933202
+    },
+    {
+      "seed": 2,
+      "length": 1024,
+      "sham_over_gate": 1.1842643628752452
+    }
+  ],
+  "scoring_label_canary_max_logit_error": 0.0,
+  "future_query_to_prefix_max_error": 0.0,
+  "rope_alpha_score_max_errors": {
+    "sem_a0.5": 9.5367431640625e-07,
+    "sem_a0.25": 0.0,
+    "sem_a0": 0.0,
+    "pos_a2": 3.814697265625e-06,
+    "pos_a4": 0.0
+  },
+  "small_fit_per_layer_size_real": {
+    "0": 0.40707170963287354,
+    "1": 0.4537087082862854,
+    "2": 0.4391578435897827,
+    "3": 0.4695165455341339
+  },
+  "small_fit_per_layer_size_sham": {
+    "0": 0.40707167983055115,
+    "1": 0.8101023435592651,
+    "2": 1.0196727514266968,
+    "3": 1.0930417776107788
+  }
+}
