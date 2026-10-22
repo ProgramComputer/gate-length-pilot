@@ -1,3 +1,6 @@
 torch>=2.4
 numpy
 matplotlib
+safetensors
+tokenizers
+huggingface_hub
