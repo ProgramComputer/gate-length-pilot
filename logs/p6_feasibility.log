@@ -1,0 +1,11 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+before 2048 0.845 0.395
+before 4096 0.51 0.215
+before 8192 0.065 0.01
+uniform 2048 0.88 0.28
+uniform 4096 0.68 0.24
+uniform 8192 0.155 0.02
+after 2048 0.9 0.34
+after 4096 0.71 0.295
+after 8192 0.02 0.0
+wrote results6/feasibility.json (347s)
