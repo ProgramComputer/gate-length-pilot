@@ -1,0 +1,80 @@
+{
+  "builder_checks": "32 inputs x all lengths/placements: lengths, answer, adjacency, before distance, after position",
+  "ordinary_english": {
+    "text": "In the early morning, the town was quiet. A few people were walking to work, and the baker had already opened his shop. The smell of fresh bread drifted through the street. Anna stopped to buy a loaf before taking the bus to the library. She had promised to help her friend find a book about the history of the city. When she arrived, the doors were still closed, so she sat on a bench and watched the birds in the trees. After a few minutes, the librarian came outside and welcomed her in. They spent the rest of the morning looking through old maps and photographs, trying to understand how the neighborhood had changed over the years.",
+    "tokens": 144,
+    "loss_nats": 2.186209201812744,
+    "seconds": 15.008208699990064
+  },
+  "flash_vs_manual_max_abs_logit": 8.58306884765625e-06,
+  "flash_vs_manual_max_abs_stat": 8.106231689453125e-06,
+  "cached_vs_full_max_abs_logit": 7.152557373046875e-06,
+  "causality_prefix_max_abs_logit": 7.62939453125e-06,
+  "patch_short_identity_max_abs": 0.0,
+  "sham_short_identity_max_abs": 0.0,
+  "selected_row_scalar_reference": "pass",
+  "gqa_head_by_head_reference": "pass",
+  "patch_sham_boundary_and_sources": "pass",
+  "greedy_continuations": [
+    {
+      "prompt": "The capital of France is",
+      "generated_ids": [
+        3681,
+        29889,
+        13,
+        1576,
+        7483,
+        310,
+        278,
+        3303,
+        3900,
+        338,
+        7660,
+        29892,
+        360,
+        29889,
+        29907,
+        29889,
+        13,
+        1576,
+        7483,
+        310,
+        278,
+        3303,
+        3900,
+        338
+      ],
+      "generated_text": "Paris.\nThe capital of the United States is Washington, D.C.\nThe capital of the United States is"
+    },
+    {
+      "prompt": "Once upon a time, in a small village,",
+      "generated_ids": [
+        727,
+        10600,
+        263,
+        767,
+        4257,
+        6936,
+        29889,
+        940,
+        471,
+        263,
+        1781,
+        767,
+        29892,
+        322,
+        750,
+        263,
+        6532,
+        322,
+        4344,
+        29889,
+        3118,
+        2462,
+        29892,
+        6936
+      ],
+      "generated_text": "there lived a man named Joseph. He was a good man, and had a wife and children. One day, Joseph"
+    }
+  ]
+}

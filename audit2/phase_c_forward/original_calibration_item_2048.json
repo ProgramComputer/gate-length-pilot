@@ -1,0 +1,52 @@
+{
+  "seed": 20001,
+  "index": 0,
+  "length": 2048,
+  "positions": [
+    833,
+    836,
+    839,
+    842,
+    845,
+    848,
+    851,
+    854,
+    857,
+    860,
+    863,
+    866,
+    869,
+    872,
+    875,
+    878
+  ],
+  "mean_p": 0.5075217485427856,
+  "margin_code": 38.77170181274414,
+  "margin_registered_earlier_only": 38.81475830078125,
+  "margin_correction": 0.043056488037109375,
+  "seconds": 40.673850500024855,
+  "prediction": {
+    "restricted_prediction": 1497,
+    "restricted_correct": false,
+    "full_prediction": 13,
+    "full_correct": false,
+    "answer_logit": 4.375131607055664,
+    "answer_minus_best_other_value": -0.3056020736694336,
+    "restricted_prediction_word": "\u2581said",
+    "full_prediction_token": "<0x0A>",
+    "top5_ids": [
+      13,
+      29889,
+      936,
+      1711,
+      293
+    ],
+    "top5_logits": [
+      9.257772445678711,
+      7.365374565124512,
+      7.266639709472656,
+      7.1484198570251465,
+      6.345744609832764
+    ]
+  }
+}

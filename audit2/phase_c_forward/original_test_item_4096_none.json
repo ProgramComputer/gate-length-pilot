@@ -1,0 +1,32 @@
+{
+  "seed": 40000,
+  "index": 0,
+  "length": 4096,
+  "condition": "none",
+  "seconds": 103.66465220006648,
+  "prediction": {
+    "restricted_prediction": 15454,
+    "restricted_correct": false,
+    "full_prediction": 13,
+    "full_correct": false,
+    "answer_logit": -0.9756854176521301,
+    "answer_minus_best_other_value": -4.505294322967529,
+    "restricted_prediction_word": "\u2581edific",
+    "full_prediction_token": "<0x0A>",
+    "top5_ids": [
+      13,
+      2,
+      29871,
+      316,
+      21950
+    ],
+    "top5_logits": [
+      11.875551223754883,
+      7.438681125640869,
+      6.957129001617432,
+      6.497970104217529,
+      5.993688583374023
+    ]
+  },
+  "saved_gpu_restricted_correct": false
+}

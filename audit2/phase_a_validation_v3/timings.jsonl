@@ -1,0 +1,3 @@
+{"length": 2048, "seconds_wall": 48.55799390003085, "seconds_cpu": 178.640625, "batch": 1, "all_head_diagnostics": true, "precision": "float32"}
+{"length": 4096, "seconds_wall": 162.8638727000216, "seconds_cpu": 434.46875, "batch": 1, "all_head_diagnostics": true, "precision": "float32"}
+{"length": 8192, "seconds_wall": 358.8549331999384, "seconds_cpu": 997.75, "batch": 1, "all_head_diagnostics": true, "precision": "float32"}

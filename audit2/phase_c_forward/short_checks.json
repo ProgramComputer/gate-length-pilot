@@ -1,0 +1,12 @@
+{
+  "precision": "float32 shared checkpoint weights; original constructor bypassed",
+  "tokens": 21,
+  "original_vs_independent_max_abs_logit": 0.0,
+  "rms_exact_equal": true,
+  "causality_max_abs_before_query": 0.0,
+  "short_real_forward_hook_equivalence_max_abs": {
+    "patch": 0.0,
+    "sham": 0.0
+  },
+  "matched_inputs": []
+}

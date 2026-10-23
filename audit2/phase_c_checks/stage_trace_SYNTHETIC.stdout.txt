@@ -1,0 +1,13 @@
+k 16 {'restricted': 1.0, 'full': 0.0}
+k 8 {'restricted': 1.0, 'full': 0.0}
+k 4 {'restricted': 1.0, 'full': 0.0}
+before 2048 1.0
+before 4096 1.0
+before 8192 1.0
+uniform 2048 1.0
+uniform 4096 1.0
+uniform 8192 1.0
+after 2048 1.0
+after 4096 1.0
+after 8192 1.0
+wrote results6/none_batch1.json

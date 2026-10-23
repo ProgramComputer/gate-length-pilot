@@ -1,0 +1,45 @@
+{
+  "SYNTHETIC_ONLY": true,
+  "cases": {
+    "D2_39_of_200": {
+      "exact_gain_pp": 19.5,
+      "verdict": "## Verdict: **ATTENTION FADES BUT THE PATCH DOES NOT RESCUE; IN BETWEEN**"
+    },
+    "D2_40_of_200": {
+      "exact_gain_pp": 20.0,
+      "verdict": "## Verdict: **ATTENTION FADES BUT THE PATCH DOES NOT RESCUE; IN BETWEEN**"
+    },
+    "D2_41_of_200": {
+      "exact_gain_pp": 20.5,
+      "verdict": "## Verdict: **TOY MECHANISM HOLDS IN THE REAL MODEL; IN BETWEEN**"
+    },
+    "F_exact_70_percent": {
+      "stored_float32": 0.699999988079071,
+      "verdict": "## Verdict: **NOT TESTABLE (the task is not solved inside the trained length)**"
+    },
+    "tune_exact_70_percent": {
+      "16": {
+        "restricted": 0.699999988079071,
+        "full": 0.0
+      },
+      "8": {
+        "restricted": 0.699999988079071,
+        "full": 0.0
+      },
+      "4": {
+        "restricted": 0.699999988079071,
+        "full": 0.0
+      },
+      "chosen_k": null
+    },
+    "ratio_0.5": {
+      "verdict": "## Verdict: **TOY MECHANISM HOLDS IN THE REAL MODEL; PREFERENCE LOST (position)**"
+    },
+    "ratio_0.65": {
+      "verdict": "## Verdict: **TOY MECHANISM HOLDS IN THE REAL MODEL; IN BETWEEN**"
+    },
+    "ratio_0.8": {
+      "verdict": "## Verdict: **TOY MECHANISM HOLDS IN THE REAL MODEL; PREFERENCE KEPT (dilution)**"
+    }
+  }
+}

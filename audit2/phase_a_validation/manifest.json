@@ -1,0 +1,13 @@
+{
+  "utc": "2026-10-23T02:51:48.591274+00:00",
+  "command": [
+    "audit2/independent_nope.py",
+    "validate",
+    "--output",
+    "phase_a_validation",
+    "--threads",
+    "4"
+  ],
+  "args": {
+    "mode": "validate",
+    "snapshot": 

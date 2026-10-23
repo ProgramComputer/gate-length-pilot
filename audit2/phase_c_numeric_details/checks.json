@@ -1,0 +1,10 @@
+{
+  "constructor_SYNTHETIC_tensor_loading": "pass: exact names, BF16 casts, CPU placement; constructor executed with a fake loader",
+  "bf16_rmsnorm_scalar_formula_max_abs_difference": 0.0,
+  "report5_gate_boundary_SYNTHETIC": {
+    "correct_count": 140,
+    "n": 200,
+    "stored_float32": 0.699999988079071,
+    "verdict_line": "## Verdict: **NOT TESTABLE**"
+  }
+}

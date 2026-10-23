@@ -1,0 +1,12 @@
+{
+  "SYNTHETIC_ONLY": true,
+  "head_dimension": 64,
+  "qk_dtype": "bfloat16",
+  "device": "cpu",
+  "hook_predecessor_probability": 0.25,
+  "sdpa_bf16_output_probability": 0.30078125,
+  "fp32_accumulation_reference_probability": 0.30136799812316895,
+  "threshold_0_3_hook_qualifies": false,
+  "threshold_0_3_sdpa_qualifies": true,
+  "interpretation": "QK is rounded to BF16 before Hooks.measure casts to float32. This can change head selection. No claim that this canary describes the original 39 heads or changes their actual verdict."
+}

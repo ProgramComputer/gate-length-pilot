@@ -1,0 +1,35 @@
+# Pilot 6 (real model, redesigned): pre-registered decision
+
+## Tuning: block size k, on 2048-token inputs only (seed 60000)
+
+| k | accuracy (512 words) | full vocab |
+|---|---|---|
+| 16 | 81.0 | 36.0 |
+| 8 | 85.0 | 48.0 |
+| 4 | 93.0 | 60.0 |
+
+Chosen k: 16
+
+## Feasibility (baseline accuracy over the 512 value words)
+
+| placement | 2048 | 4096 | 8192 |
+|---|---|---|---|
+| before | 84.5 | 51.0 | 6.5 |
+| uniform | 88.0 | 68.0 | 15.5 |
+| after | 90.0 | 71.0 | 2.0 |
+
+F (≥ 70% at 2048 and ≥ 20 pp lower at 8192, 'before'): yes
+
+## Binding heads (39): attention to previous token 0.463 inside → 0.108 far; margin 36.07 → 24.46 (ratio 0.68)
+
+| condition | before 2048 | before 4096 | before 8192 |
+|---|---|---|---|
+| none | 84.5 | 51.0 | 6.5 |
+| patch | 86.0 | 85.5 | 65.0 |
+| sham | 86.0 | 1.0 | 1.0 |
+
+D1: yes; D1b: IN BETWEEN; D2: yes
+
+## Verdict: **TOY MECHANISM HOLDS IN THE REAL MODEL; IN BETWEEN**
+
+wrote C:\Users\pkchi\Documents\gate-length-pilot-audit2\audit2\phase_c_checks\figures\fig13_pilot6_real_model.png

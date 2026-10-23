@@ -1,0 +1,117 @@
+{
+  "selected_heads_zero_based": [
+    [
+      2,
+      11
+    ]
+  ],
+  "selection_inputs": 2,
+  "cells": {
+    "2048_none": {
+      "n": 1,
+      "restricted_accuracy": 0.0,
+      "full_accuracy": 0.0
+    },
+    "4096_none": {
+      "n": 1,
+      "restricted_accuracy": 0.0,
+      "full_accuracy": 0.0
+    },
+    "4096_patch": {
+      "n": 1,
+      "restricted_accuracy": 0.0,
+      "full_accuracy": 0.0
+    },
+    "4096_sham": {
+      "n": 1,
+      "restricted_accuracy": 0.0,
+      "full_accuracy": 0.0
+    },
+    "8192_none": {
+      "n": 1,
+      "restricted_accuracy": 0.0,
+      "full_accuracy": 0.0
+    },
+    "8192_patch": {
+      "n": 1,
+      "restricted_accuracy": 0.0,
+      "full_accuracy": 0.0
+    },
+    "8192_sham": {
+      "n": 1,
+      "restricted_accuracy": 0.0,
+      "full_accuracy": 0.0
+    }
+  },
+  "diagnostics": {
+    "2048": {
+      "p_previous": 0.2,
+      "margin_earlier": 0.0,
+      "p_bos": 0.0,
+      "p_self": 0.0,
+      "previous_minus_max_other": 0.0,
+      "logsumexp_other_minus_previous": 0.0,
+      "previous_rank": 0.0
+    },
+    "4096": {
+      "p_previous": 0.2,
+      "margin_earlier": 0.0,
+      "p_bos": 0.0,
+      "p_self": 0.0,
+      "previous_minus_max_other": 0.0,
+      "logsumexp_other_minus_previous": 0.0,
+      "previous_rank": 0.0
+    },
+    "8192": {
+      "p_previous": 0.2,
+      "margin_earlier": 0.0,
+      "p_bos": 0.0,
+      "p_self": 0.0,
+      "previous_minus_max_other": 0.0,
+      "logsumexp_other_minus_previous": 0.0,
+      "previous_rank": 0.0
+    }
+  },
+  "paired_effects": {
+    "4096_patch_minus_none": {
+      "n": 1,
+      "gain_pp": 0.0,
+      "paired_bootstrap_95_pp": [
+        0.0,
+        0.0
+      ]
+    },
+    "4096_patch_minus_sham": {
+      "n": 1,
+      "gain_pp": 0.0,
+      "paired_bootstrap_95_pp": [
+        0.0,
+        0.0
+      ]
+    },
+    "8192_patch_minus_none": {
+      "n": 1,
+      "gain_pp": 0.0,
+      "paired_bootstrap_95_pp": [
+        0.0,
+        0.0
+      ]
+    },
+    "8192_patch_minus_sham": {
+      "n": 1,
+      "gain_pp": 0.0,
+      "paired_bootstrap_95_pp": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  "complete": true,
+  "elapsed_seconds": 0.024284800048917532,
+  "requested": {
+    "selection": 2,
+    "diagnostics": 1,
+    "n4096": 1,
+    "n8192": 1
+  }
+}

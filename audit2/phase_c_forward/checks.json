@@ -1,0 +1,214 @@
+{
+  "precision": "float32 shared checkpoint weights; original constructor bypassed",
+  "tokens": 21,
+  "original_vs_independent_max_abs_logit": 0.0,
+  "rms_exact_equal": true,
+  "causality_max_abs_before_query": 0.0,
+  "short_real_forward_hook_equivalence_max_abs": {
+    "patch": 0.0,
+    "sham": 0.0
+  },
+  "matched_inputs": [
+    {
+      "seed": 20001,
+      "index": 0,
+      "length": 2048,
+      "positions": [
+        833,
+        836,
+        839,
+        842,
+        845,
+        848,
+        851,
+        854,
+        857,
+        860,
+        863,
+        866,
+        869,
+        872,
+        875,
+        878
+      ],
+      "mean_p": 0.5075217485427856,
+      "margin_code": 38.77170181274414,
+      "margin_registered_earlier_only": 38.81475830078125,
+      "margin_correction": 0.043056488037109375,
+      "seconds": 40.673850500024855,
+      "prediction": {
+        "restricted_prediction": 1497,
+        "restricted_correct": false,
+        "full_prediction": 13,
+        "full_correct": false,
+        "answer_logit": 4.375131607055664,
+        "answer_minus_best_other_value": -0.3056020736694336,
+        "restricted_prediction_word": "\u2581said",
+        "full_prediction_token": "<0x0A>",
+        "top5_ids": [
+          13,
+          29889,
+          936,
+          1711,
+          293
+        ],
+        "top5_logits": [
+          9.257772445678711,
+          7.365374565124512,
+          7.266639709472656,
+          7.1484198570251465,
+          6.345744609832764
+        ]
+      }
+    },
+    {
+      "seed": 20001,
+      "index": 0,
+      "length": 8192,
+      "positions": [
+        6977,
+        6980,
+        6983,
+        6986,
+        6989,
+        6992,
+        6995,
+        6998,
+        7001,
+        7004,
+        7007,
+        7010,
+        7013,
+        7016,
+        7019,
+        7022
+      ],
+      "mean_p": 0.15029563009738922,
+      "margin_code": 26.81978416442871,
+      "margin_registered_earlier_only": 26.823429107666016,
+      "margin_correction": 0.0036449432373046875,
+      "seconds": 196.10152280004695,
+      "prediction": {
+        "restricted_prediction": 1497,
+        "restricted_correct": false,
+        "full_prediction": 936,
+        "full_correct": false,
+        "answer_logit": -1.4432121515274048,
+        "answer_minus_best_other_value": -3.57853364944458,
+        "restricted_prediction_word": "\u2581said",
+        "full_prediction_token": "ical",
+        "top5_ids": [
+          936,
+          1711,
+          293,
+          1199,
+          29875
+        ],
+        "top5_logits": [
+          16.700529098510742,
+          14.204471588134766,
+          12.415241241455078,
+          11.079911231994629,
+          10.072988510131836
+        ]
+      }
+    },
+    {
+      "seed": 40000,
+      "index": 0,
+      "length": 4096,
+      "condition": "none",
+      "seconds": 103.66465220006648,
+      "prediction": {
+        "restricted_prediction": 15454,
+        "restricted_correct": false,
+        "full_prediction": 13,
+        "full_correct": false,
+        "answer_logit": -0.9756854176521301,
+        "answer_minus_best_other_value": -4.505294322967529,
+        "restricted_prediction_word": "\u2581edific",
+        "full_prediction_token": "<0x0A>",
+        "top5_ids": [
+          13,
+          2,
+          29871,
+          316,
+          21950
+        ],
+        "top5_logits": [
+          11.875551223754883,
+          7.438681125640869,
+          6.957129001617432,
+          6.497970104217529,
+          5.993688583374023
+        ]
+      },
+      "saved_gpu_restricted_correct": false
+    },
+    {
+      "seed": 40000,
+      "index": 0,
+      "length": 4096,
+      "condition": "patch",
+      "seconds": 82.85425179998856,
+      "prediction": {
+        "restricted_prediction": 2186,
+        "restricted_correct": false,
+        "full_prediction": 13,
+        "full_correct": false,
+        "answer_logit": 6.563825607299805,
+        "answer_minus_best_other_value": -0.189697265625,
+        "restricted_prediction_word": "\u2581final",
+        "full_prediction_token": "<0x0A>",
+        "top5_ids": [
+          13,
+          26534,
+          2,
+          15997,
+          2186
+        ],
+        "top5_logits": [
+          10.587203979492188,
+          8.337282180786133,
+          8.025716781616211,
+          6.8827362060546875,
+          6.753522872924805
+        ]
+      },
+      "saved_gpu_restricted_correct": false
+    },
+    {
+      "seed": 40000,
+      "index": 0,
+      "length": 4096,
+      "condition": "sham",
+      "seconds": 80.93671510007698,
+      "prediction": {
+        "restricted_prediction": 17363,
+        "restricted_correct": false,
+        "full_prediction": 13,
+        "full_correct": false,
+        "answer_logit": -1.226030945777893,
+        "answer_minus_best_other_value": -8.593122482299805,
+        "restricted_prediction_word": "\u2581marca",
+        "full_prediction_token": "<0x0A>",
+        "top5_ids": [
+          13,
+          1766,
+          17363,
+          29452,
+          316
+        ],
+        "top5_logits": [
+          9.480562210083008,
+          7.702868461608887,
+          7.367091655731201,
+          6.150424003601074,
+          5.997254371643066
+        ]
+      },
+      "saved_gpu_restricted_correct": false
+    }
+  ],
+  "elapsed_seconds": 535.8249628999038
+}

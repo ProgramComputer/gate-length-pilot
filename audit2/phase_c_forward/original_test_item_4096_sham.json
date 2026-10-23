@@ -1,0 +1,32 @@
+{
+  "seed": 40000,
+  "index": 0,
+  "length": 4096,
+  "condition": "sham",
+  "seconds": 80.93671510007698,
+  "prediction": {
+    "restricted_prediction": 17363,
+    "restricted_correct": false,
+    "full_prediction": 13,
+    "full_correct": false,
+    "answer_logit": -1.226030945777893,
+    "answer_minus_best_other_value": -8.593122482299805,
+    "restricted_prediction_word": "\u2581marca",
+    "full_prediction_token": "<0x0A>",
+    "top5_ids": [
+      13,
+      1766,
+      17363,
+      29452,
+      316
+    ],
+    "top5_logits": [
+      9.480562210083008,
+      7.702868461608887,
+      7.367091655731201,
+      6.150424003601074,
+      5.997254371643066
+    ]
+  },
+  "saved_gpu_restricted_correct": false
+}

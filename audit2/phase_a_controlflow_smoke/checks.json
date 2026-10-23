@@ -1,0 +1,9 @@
+{
+  "SYNTHETIC_ONLY": true,
+  "tests": {
+    "threshold": "pass: selection, deduplication, raw IDs, paired summaries, all 7 cells",
+    "fallback": "pass: selection, deduplication, raw IDs, paired summaries, all 7 cells",
+    "deadline": "pass: partial summary and orderly stop",
+    "full_prompt_roundtrip": "pass: 4 examples x 3 lengths x 3 placements"
+  }
+}
