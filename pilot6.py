@@ -132,14 +132,17 @@ def block_stats(
 
 
 def stage_tune(model: NoPELlama, tok: Tokenizer, n: int) -> dict[str, Any]:
-    res: dict[str, Any] = {}
+    res: dict[str, Any]
+    passing: list[int]
+    res, passing = {}, []
     for k in K_CHOICES:
         task = FillerTask(tok, k)
         data = task.paired_set(n, "before", seed=60_000, lengths=(TRAIN_LEN,))[TRAIN_LEN]
         r, f = score(model, task, data)
         res[str(k)] = {"restricted": r.float().mean().item(), "full": f.float().mean().item()}
         print("k", k, res[str(k)], flush=True)
-    passing = [k for k in K_CHOICES if res[str(k)]["restricted"] >= 0.70]
+        if 10 * int(r.sum()) >= 7 * len(r):
+            passing.append(k)
     res["chosen_k"] = max(passing) if passing else None
     return res
 

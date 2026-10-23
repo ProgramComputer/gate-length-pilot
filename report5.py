@@ -42,8 +42,8 @@ def decision() -> None:
             + " | ".join(f"{100 * feas[f'{pl}/{L}']['restricted']:.1f}" for L in LENGTHS)
             + " |"
         )
-    a2048, a8192 = feas["before/2048"]["restricted"], feas["before/8192"]["restricted"]
-    F = a2048 >= 0.70 and a8192 <= a2048 - 0.20
+    c2048, c8192 = (bits(feas[f"before/{L}"]["correct"]) for L in (2048, 8192))
+    F = 10 * c2048.sum() >= 7 * c2048.size and 5 * (c2048.sum() - c8192.sum()) >= c2048.size
     out.append(f"\nF (≥ 70% at 2048 and ≥ 20 pp lower at 8192, 'before'): {'yes' if F else 'NO'}")
     if not F or full is None:
         verdict = "NOT TESTABLE" if not F else "PENDING"
@@ -85,7 +85,11 @@ def decision() -> None:
         )
     x, y = bits(full["correct"]["patch/before/8192"]), bits(full["correct"]["none/before/8192"])
     s = bits(full["correct"]["sham/before/8192"])
-    D2 = x.mean() - y.mean() >= 0.20 and boot_ci(x, y)[0] > 0 and x.mean() - s.mean() >= 0.20
+    D2 = (
+        5 * (x.sum() - y.sum()) >= x.size
+        and boot_ci(x, y)[0] > 0
+        and 5 * (x.sum() - s.sum()) >= x.size
+    )
     verdict = (
         "TOY MECHANISM HOLDS IN THE REAL MODEL"
         if D1 and D2

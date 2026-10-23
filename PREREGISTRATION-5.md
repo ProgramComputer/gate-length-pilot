@@ -72,4 +72,13 @@ D1b is reported alongside the verdict as the answer to the audit's question.
 
 ## Deviations
 
-- *(none yet)*
+Added 2026-10-23, after the second audit ([AUDIT-2.md](AUDIT-2.md)). None of these changes the verdict.
+
+- **A diagnostic ran after the failed gate**, although this plan says nothing further runs. It used shorter lists,
+  only to rule out a pipeline bug, and RESULTS-5.md reports it as not pre-registered
+  ([results5/diagnostic.txt](results5/diagnostic.txt), `logs/diag5.py`).
+- **The 4096-token inputs are 4094 tokens**, because records are whole 3-token lines. The 2048 and 8192 inputs are
+  exact, and the gate uses only those.
+- **Decision thresholds.** `report5.py` compared rounded float accuracies with the 70% and 20 pp thresholds, which
+  could fail exactly at a boundary (140/200 is stored as 0.699999988). On 2026-10-23 it was changed to compare
+  integer counts. The saved results are far from the boundaries, and results5/decision.md is unchanged.

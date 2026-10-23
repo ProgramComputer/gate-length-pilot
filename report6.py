@@ -46,15 +46,16 @@ def decision() -> None:
                 + " | ".join(f"{100 * feas[f'{pl}/{L}']['restricted']:.1f}" for L in LENGTHS)
                 + " |"
             )
-        a2048, a8192 = feas["before/2048"]["restricted"], feas["before/8192"]["restricted"]
-        F = a2048 >= 0.70 and a8192 <= a2048 - 0.20
+        c2048, c8192 = (bits(feas[f"before/{L}"]["correct"]) for L in (2048, 8192))
+        solved = 10 * c2048.sum() >= 7 * c2048.size
+        F = solved and 5 * (c2048.sum() - c8192.sum()) >= c2048.size
         out.append(
             f"\nF (≥ 70% at 2048 and ≥ 20 pp lower at 8192, 'before'): {'yes' if F else 'NO'}"
         )
         if not F:
             verdict = (
                 "NOT TESTABLE (no length failure to explain)"
-                if a2048 >= 0.70
+                if solved
                 else "NOT TESTABLE (the task is not solved inside the trained length)"
             )
     if F and full is None:
@@ -73,7 +74,11 @@ def decision() -> None:
             else "PREFERENCE LOST (position)" if ratio <= 0.5 else "IN BETWEEN"
         )
         x, y, s = (bits(full["correct"][f"{c}/before/8192"]) for c in ("patch", "none", "sham"))
-        D2 = x.mean() - y.mean() >= 0.20 and boot_ci(x, y)[0] > 0 and x.mean() - s.mean() >= 0.20
+        D2 = (
+            5 * (x.sum() - y.sum()) >= x.size
+            and boot_ci(x, y)[0] > 0
+            and 5 * (x.sum() - s.sum()) >= x.size
+        )
         out.append(
             f"\n## Binding heads ({len(hs)}): attention to previous token "
             f"{p_in:.3f} inside → {p_far:.3f} far; "

@@ -78,3 +78,22 @@ Added 2026-10-22, after the results.
 - **Interpretation of D1b.** The registered margin compares the previous token with the *average* other token. It
   cannot tell whether lost attention goes to a few strong competitors, such as an attention sink. RESULTS-6.md
   states this.
+
+Added 2026-10-23, after the second audit ([AUDIT-2.md](AUDIT-2.md)). None of these changes a saved verdict.
+
+- **Margin definition.** This plan compares the previous token with the mean of the other *earlier* tokens. The
+  code (`pilot5.py`, `Hooks.measure`) also counts the value token itself and divides by t instead of t − 1. On one
+  matched input the difference is small (38.77 vs 38.81 inside; 26.82 both far). The 64-input D1b was not
+  recomputed.
+- **Attention precision.** The measurement hook computes attention scores in bfloat16 and only then casts them to
+  float32, unlike the model's own attention. Reported attention and the 0.3 head cutoff can therefore differ
+  slightly from the model's actual attention; the effect on the 39 selected heads was not measured.
+- **4096 filler.** Longer "before" inputs cut the repeating filler (24 tokens per repeat) at a new point. At 4096
+  the text between block and query is the same sentences shifted by 8 tokens rather than identical text; the
+  distance is preserved. At 8192 it is identical (6144 is a multiple of 24), so D2 is unaffected.
+- **Decision thresholds.** The tuning rule (`pilot6.py`) and F and D2 (`report6.py`) compared rounded float
+  accuracies with their thresholds, which could fail exactly at a boundary (70/100 is stored as 0.699999988). On
+  2026-10-23 they were changed to compare integer counts. The saved results are far from the boundaries (the
+  lowest tuning accuracy was 81%), and results6/decision.md is unchanged.
+- **Checkpoint revision.** The model was downloaded by name, without recording a revision, so the exact checkpoint
+  the GPU run used is not on record.

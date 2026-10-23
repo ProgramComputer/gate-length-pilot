@@ -21,19 +21,29 @@ attention-side failure explains?**
 as pre-registered.
 
 **Pilot 5** (new study: does pilot 4 hold in Wang et al.'s real 1.1B NoPE model?): [PREREGISTRATION-5.md](PREREGISTRATION-5.md)
-and [RESULTS-5.md](RESULTS-5.md). Code: `pilot5.py`, `report5.py`. Verdict: NOT TESTABLE. The model cannot do the
-task reliably even inside its training length, so the real-model question remains open.
+and [RESULTS-5.md](RESULTS-5.md). Code: `pilot5.py`, `report5.py`. Verdict: NOT TESTABLE. The model cannot do this
+task, hundreds of random word pairs, reliably even inside its training length, so this format could not answer the
+real-model question.
 
 **Pilot 6** (pilot 5 redesigned so the model can do the task: 16 pairs hidden in filler text):
 [PREREGISTRATION-6.md](PREREGISTRATION-6.md) and [RESULTS-6.md](RESULTS-6.md). Code: `pilot6.py`, `report6.py`,
-`pilot6_batch1.py`. Verdict: **TOY MECHANISM HOLDS IN THE REAL MODEL.** In TinyLlama-NoPE-1.1B, 39 binding heads
-lose their look-back past 2048 tokens, and restoring it raises retrieval at 8192 from 6.5% to 65% (sham: 1%).
+`pilot6_batch1.py`. Registered verdict: **TOY MECHANISM HOLDS IN THE REAL MODEL**, on an oracle test of synthetic
+retrieval. In TinyLlama-NoPE-1.1B, 39 binding heads lose their look-back past 2048 tokens, and an oracle overwrite
+at those heads raises retrieval at 8192 from 6.5% to 65% of 512 candidate words (25.5% over the whole vocabulary;
+sham: 1%). Why the look-back fades is unresolved.
 
-**Independent audit:** [AUDIT.md](AUDIT.md), with its checks in `audit/`. A separate AI (Codex, OpenAI)
+**Independent audits:** [AUDIT.md](AUDIT.md), with its checks in `audit/`. A separate AI (Codex, OpenAI)
 re-implemented pilot 4 from its registration without seeing this code or results first, and reproduced its
 numbers seed by seed. It also reproduced all four verdicts, found no error that changes one, and listed where the
 write-ups overreached. The write-ups and the registrations' deviation sections were corrected on 2026-10-22 to
 match the audit. No number or verdict changed.
+
+[AUDIT-2.md](AUDIT-2.md), with its checks in `audit2/`, did the same for pilots 5–6, re-implementing them from
+their registrations and running them in float32 on a laptop CPU. It reproduced the falling look-back and the 4096
+rescue (patch − none +44.4 pp, 95% CI +22.2 to +66.7, on 18 inputs), and both verdicts from the saved data. Its
+8192 sample was only two patched inputs, so the 200-input 8192 result has not been independently rerun, and its
+margin ratio (1.12) did not reproduce pilot 6's 0.68. The write-ups and deviation sections were corrected on
+2026-10-23, and boundary-case threshold checks now use integer counts. No number or verdict changed.
 
 ## Layout
 
