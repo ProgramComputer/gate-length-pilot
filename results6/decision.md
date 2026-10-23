@@ -20,4 +20,14 @@ Chosen k: 16
 
 F (≥ 70% at 2048 and ≥ 20 pp lower at 8192, 'before'): yes
 
-## Verdict: **GATE PASSED; MAIN TEST NOT YET RUN (awaiting approval)**
+## Binding heads (39): attention to previous token 0.463 inside → 0.108 far; margin 36.07 → 24.46 (ratio 0.68)
+
+| condition | before 2048 | before 4096 | before 8192 |
+|---|---|---|---|
+| none | 84.5 | 51.0 | 6.5 |
+| patch | 86.0 | 85.5 | 65.0 |
+| sham | 86.0 | 1.0 | 1.0 |
+
+D1: yes; D1b: IN BETWEEN; D2: yes
+
+## Verdict: **TOY MECHANISM HOLDS IN THE REAL MODEL; IN BETWEEN**

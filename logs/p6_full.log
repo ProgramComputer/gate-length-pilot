@@ -1,0 +1,30 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+binding heads [(8, 7), (9, 0), (11, 22), (11, 23), (11, 26), (11, 27), (11, 28), (11, 29), (12, 2), (12, 3), (12, 9), (12, 29), (13, 0), (13, 11), (13, 12), (13, 13), (13, 27), (13, 28), (14, 0), (14, 2), (14, 4), (14, 5), (14, 8), (14, 12), (14, 15), (14, 17), (14, 21), (14, 24), (14, 26), (14, 27), (14, 28), (14, 29), (14, 31), (15, 2), (15, 11), (16, 11), (17, 6), (17, 23), (18, 0)]
+none before 2048 0.845
+patch before 2048 0.86
+sham before 2048 0.86
+none before 4096 0.51
+patch before 4096 0.855
+sham before 4096 0.01
+none before 8192 0.065
+patch before 8192 0.65
+sham before 8192 0.01
+none uniform 2048 0.88
+patch uniform 2048 0.875
+sham uniform 2048 0.875
+none uniform 4096 0.68
+patch uniform 4096 0.81
+sham uniform 4096 0.385
+none uniform 8192 0.155
+patch uniform 8192 0.51
+sham uniform 8192 0.025
+none after 2048 0.9
+patch after 2048 0.89
+sham after 2048 0.89
+none after 4096 0.71
+patch after 4096 0.715
+sham after 4096 0.715
+none after 8192 0.02
+patch after 8192 0.02
+sham after 8192 0.02
+wrote results6/full.json (1124s)

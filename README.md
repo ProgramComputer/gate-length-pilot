@@ -24,6 +24,11 @@ as pre-registered.
 and [RESULTS-5.md](RESULTS-5.md). Code: `pilot5.py`, `report5.py`. Verdict: NOT TESTABLE. The model cannot do the
 task reliably even inside its training length, so the real-model question remains open.
 
+**Pilot 6** (pilot 5 redesigned so the model can do the task: 16 pairs hidden in filler text):
+[PREREGISTRATION-6.md](PREREGISTRATION-6.md) and [RESULTS-6.md](RESULTS-6.md). Code: `pilot6.py`, `report6.py`,
+`pilot6_batch1.py`. Verdict: **TOY MECHANISM HOLDS IN THE REAL MODEL.** In TinyLlama-NoPE-1.1B, 39 binding heads
+lose their look-back past 2048 tokens, and restoring it raises retrieval at 8192 from 6.5% to 65% (sham: 1%).
+
 **Independent audit:** [AUDIT.md](AUDIT.md), with its checks in `audit/`. A separate AI (Codex, OpenAI)
 re-implemented pilot 4 from its registration without seeing this code or results first, and reproduced its
 numbers seed by seed. It also reproduced all four verdicts, found no error that changes one, and listed where the

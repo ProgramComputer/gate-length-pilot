@@ -68,4 +68,13 @@ Verdict, with D1b reported alongside:
 
 ## Deviations
 
-- *(none yet)*
+Added 2026-10-22, after the results.
+
+- **Batch size.** `--stage full` scored the unpatched model in batches of 4 and the patch and sham one input at a
+  time. In bfloat16 that changes rounding slightly (86.0% vs 84.5% at 2048, where the patch is the identity). A
+  post-hoc check, `pilot6_batch1.py`, rescored the unpatched model one input at a time on the same inputs. The
+  registered decision uses the original numbers, and the check changes no criterion (patch gain at 8192 is +58.5
+  vs +59.0 pp).
+- **Interpretation of D1b.** The registered margin compares the previous token with the *average* other token. It
+  cannot tell whether lost attention goes to a few strong competitors, such as an attention sink. RESULTS-6.md
+  states this.

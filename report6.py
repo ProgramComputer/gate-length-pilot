@@ -1,12 +1,13 @@
 from __future__ import annotations
 
 import json
+import sys
 from pathlib import Path
 from typing import Any
 
 import numpy as np
 
-from report import boot_ci
+from report import INK, boot_ci, plt, save
 
 RES = Path("results6")
 LENGTHS = (2048, 4096, 8192)
@@ -102,5 +103,82 @@ def decision() -> None:
     print("\n".join(out))
 
 
+def fig13() -> None:
+    full, b1 = load("full"), load("none_batch1")
+    hs = full["binding_heads"]
+    fig, axes = plt.subplots(1, 3, figsize=(12.5, 3.3))
+    for ax, (key_in, key_far, title, ylab) in zip(
+        axes[:2],
+        (
+            (
+                "p_inside",
+                "p_far",
+                "a. Binding heads: look back one token?",
+                "attention to the previous token",
+            ),
+            (
+                "margin_inside",
+                "margin_far",
+                "b. Preference vs dilution",
+                "score of t−1 minus mean of others",
+            ),
+        ),
+    ):
+        inside = [full[key_in][l][h] for l, h in hs]
+        far = [full[key_far][l][h] for l, h in hs]
+        for a, b in zip(inside, far):
+            ax.plot([0, 1], [a, b], color="#9cc2f0", lw=0.8, alpha=0.6)
+        ax.plot(
+            [0, 1],
+            [np.mean(inside), np.mean(far)],
+            color="#143f78",
+            marker="o",
+            lw=2.5,
+            label="mean of heads",
+        )
+        ax.set(
+            xticks=[0, 1],
+            xticklabels=["block inside\n(< 2048)", "block far\n(> 6000, 8192 input)"],
+            ylabel=ylab,
+            title=title,
+            xlim=(-0.3, 1.3),
+        )
+        ax.legend(fontsize=7.5)
+    ax = axes[2]
+    lengths = (2048, 4096, 8192)
+    series = {
+        "no patch": [full["acc"][f"none/before/{L}"]["restricted"] for L in lengths],
+        "patch: copy t−1": [full["acc"][f"patch/before/{L}"]["restricted"] for L in lengths],
+        "sham: copy t−4": [full["acc"][f"sham/before/{L}"]["restricted"] for L in lengths],
+    }
+    if b1:
+        series["no patch (one at a time)"] = [b1[f"none/before/{L}"]["restricted"] for L in lengths]
+    for (name, v), color, ls in zip(
+        series.items(), ("#52514e", "#2a78d6", "#008300", "#52514e"), ("-", "-", "-", ":")
+    ):
+        ax.plot(lengths, [100 * x for x in v], marker="o", color=color, ls=ls, label=name)
+    ax.set(
+        xscale="log",
+        xticks=lengths,
+        xticklabels=[str(L) for L in lengths],
+        ylim=(0, 102),
+        ylabel="accuracy (%)",
+        xlabel="input length (tokens; trained on ≤ 2048)",
+        title="c. Pair block far from start, near query",
+    )
+    ax.minorticks_off()
+    ax.legend(fontsize=7)
+    fig.suptitle(
+        f"Pilot 6: TinyLlama-NoPE-1.1B, {len(hs)} binding heads", x=0.01, ha="left", fontsize=9.5
+    )
+    fig.tight_layout()
+    save(fig, "fig13_pilot6_real_model")
+
+
 if __name__ == "__main__":
-    decision()
+    if sys.argv[1:] == ["fig13"]:
+        fig13()
+    else:
+        decision()
+        if load("full") is not None:
+            fig13()
