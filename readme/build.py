@@ -2,6 +2,8 @@ from __future__ import annotations
 
 import json
 import math
+import os
+import shutil
 import subprocess
 import sys
 from collections.abc import Callable
@@ -13,7 +15,14 @@ import numpy as np
 
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
-from matplotlib.patches import Rectangle
+from matplotlib.patches import Patch, Rectangle
+
+if shutil.which("latex") is None:
+    os.environ["PATH"] = (
+        str(Path.home() / "AppData/Local/Programs/MiKTeX/miktex/bin/x64")
+        + os.pathsep
+        + os.environ["PATH"]
+    )
 
 ROOT = Path(__file__).resolve().parent.parent
 HERE = ROOT / "readme"
@@ -21,46 +30,42 @@ BUILD = HERE / "build"
 DPI = 300
 WIDTH = 6.75
 
-NONE, PATCH, SHAM, REBUILD, ORIGINAL = "#52514e", "#2a78d6", "#008300", "#eb6834", "#0b0b0b"
+NONE, PATCH, SHAM, REIMPL = "tab:gray", "tab:blue", "tab:orange", "tab:red"
 COND = {
     "none": (NONE, "o", "no patch"),
-    "patch": (PATCH, "s", "patch (copy the key)"),
-    "sham": (SHAM, "^", "sham (copy a wrong key)"),
+    "patch": (PATCH, "s", "patch"),
+    "sham": (SHAM, "^", "sham"),
 }
 plt.rcParams.update(
     {
-        "font.family": "STIXGeneral",
-        "mathtext.fontset": "stix",
+        "text.usetex": True,
+        "font.family": "serif",
         "font.size": 9,
         "axes.titlesize": 9,
         "axes.labelsize": 9,
         "legend.fontsize": 8,
         "xtick.labelsize": 8,
         "ytick.labelsize": 8,
-        "axes.linewidth": 0.6,
-        "xtick.major.width": 0.6,
-        "ytick.major.width": 0.6,
         "axes.grid": True,
-        "grid.linewidth": 0.4,
-        "grid.alpha": 0.35,
-        "lines.linewidth": 1.4,
+        "grid.alpha": 0.3,
         "lines.markersize": 4.5,
         "legend.frameon": False,
         "savefig.dpi": DPI,
         "savefig.bbox": "tight",
-        "savefig.pad_inches": 0.04,
+        "savefig.pad_inches": 0.03,
     }
 )
+TRAINED = Patch(color="0.9", label="training length")
 
 FIXES = (
-    ("Gate-statistics correction", "p1", "gate"),
-    ("Value-branch correction", "p1", "up"),
-    ("Residual-stream correction", "p1", "resid"),
-    ("Log-length logit scaling", "p1", "attn"),
-    ("Gate correction + log-length scaling", "p1", "gate+attn"),
-    ("Uniform logit scale ×1.2", "p2", "1.2"),
-    ("Uniform logit scale ×1.5", "p2", "1.5"),
-    ("Uniform logit scale ×1.8", "p2", "1.8"),
+    ("gate-statistics correction", "p1", "gate"),
+    ("value-branch correction", "p1", "up"),
+    ("residual-stream correction", "p1", "resid"),
+    ("log-length logit scaling", "p1", "attn"),
+    ("gate correction + log-length scaling", "p1", "gate+attn"),
+    (r"logit scale $\times$1.2", "p2", "1.2"),
+    (r"logit scale $\times$1.5", "p2", "1.5"),
+    (r"logit scale $\times$1.8", "p2", "1.8"),
 )
 
 
@@ -120,270 +125,159 @@ def save(fig: plt.Figure, name: str) -> None:
     print("wrote", f"readme/{name}.png")
 
 
-def shade_trained(ax: plt.Axes, right: float, label_y: float) -> None:
-    left = ax.get_xlim()[0]
-    ax.axvspan(left, right, color="0.9", zorder=0, lw=0)
-    ax.text(
-        math.sqrt(left * right),
-        label_y,
-        "trained",
-        ha="center",
-        va="top",
-        fontsize=7.5,
-        color="0.35",
-    )
-
-
 def fig2() -> None:
-    fig, (a, b) = plt.subplots(1, 2, figsize=(WIDTH, 2.75))
+    fig, (a, b) = plt.subplots(1, 2, figsize=(WIDTH, 2.5))
     lens = np.array([128, 256, 512, 1024])
     none = np.array([[toy_acc("p1", s, "none", "before", L) for L in lens] for s in range(3)])
     a.set_xscale("log", base=2)
-    a.set_xlim(70, 1500)
-    shade_trained(a, 128, 99)
-    a.fill_between(lens, none.min(0), none.max(0), color=NONE, alpha=0.15, lw=0)
+    a.set_xlim(80, 1400)
+    a.axvspan(80, 128, color="0.9", lw=0, zorder=0)
+    a.fill_between(lens, none.min(0), none.max(0), color=NONE, alpha=0.2, lw=0)
     a.plot(lens, none.mean(0), color=NONE, marker="o")
-    jitter = 2 ** np.linspace(-0.07, 0.07, 6)
+    jitter = 2 ** np.linspace(-0.06, 0.06, 6)
     for cond in ("patch", "sham"):
         v = np.array([toy_acc("p4", s, cond, "before") for s in range(6)])
         c, m, _ = COND[cond]
-        a.scatter(1024 * jitter, v, s=11, color=c, alpha=0.55, lw=0, zorder=3)
-        a.plot(1024, v.mean(), color=c, marker=m, ms=6, mec="white", mew=0.7, zorder=4)
-        if cond == "patch":
-            a.annotate(
-                f"mean {v.mean():.1f}\n(seeds: {v.min():.0f}–{v.max():.0f}%)",
-                (1024 / 1.09, v.mean()),
-                xytext=(-4, 0),
-                textcoords="offset points",
-                ha="right",
-                va="center",
-                fontsize=7.5,
-                color=c,
-            )
-    a.text(78, 4.5, "chance 1.6%", fontsize=7, color="0.35")
-    a.text(
-        1420,
-        47,
-        "band: range over 3 seeds\ndots: 6 seeds; marker: mean",
-        ha="right",
-        va="center",
-        fontsize=7,
-        color="0.35",
-    )
-    a.set_xticks(lens, ["128\n1×", "256\n2×", "512\n4×", "1024\n8×"])
+        a.scatter(1024 * jitter, v, s=10, color=c, alpha=0.6, lw=0, zorder=3)
+        a.plot(1024, v.mean(), color=c, marker=m, ms=6, mec="black", mew=0.5, zorder=4)
+    a.set_xticks(lens, [str(L) for L in lens])
     a.minorticks_off()
     a.set(
         xlabel="input length (tokens)",
-        ylabel="accuracy (%), 64 possible values",
+        ylabel=r"accuracy (\%)",
         ylim=(-3, 103),
-        title="(a) Toy NoPE models (1.1M), trained on ≤128",
+        title="(a) toy models",
     )
 
     lens = np.array([2048, 4096, 8192])
     b.set_xscale("log", base=2)
-    b.set_xlim(1150, 11500)
-    shade_trained(b, 2048, 99)
+    b.set_xlim(1300, 9000)
+    b.axvspan(1300, 2048, color="0.9", lw=0, zorder=0)
     for cond, (c, m, label) in COND.items():
         k = np.array([real_correct(cond, L).sum() for L in lens])
-        acc = 100 * k / 200
         lo, hi = np.array([clopper_pearson(int(x), 200) for x in k]).T
-        b.fill_between(lens, lo, hi, color=c, alpha=0.13, lw=0)
-        b.plot(lens, acc, color=c, marker=m, label=label)
-        if cond != "sham":
-            b.annotate(
-                f"{acc[-1]:.1f}",
-                (8192, acc[-1]),
-                xytext=(7, 0),
-                textcoords="offset points",
-                va="center",
-                fontsize=8,
-                color=c,
-            )
-    b.text(1230, 4.5, "chance 0.2%", fontsize=7, color="0.35")
-    b.text(
-        11000,
-        40,
-        "bands: 95% CI,\n200 inputs per point",
-        ha="right",
-        va="center",
-        fontsize=7,
-        color="0.35",
-    )
-    b.set_xticks(lens, ["2048\n1×", "4096\n2×", "8192\n4×"])
+        b.fill_between(lens, lo, hi, color=c, alpha=0.2, lw=0)
+        b.plot(lens, 100 * k / 200, color=c, marker=m, label=label)
+    b.set_xticks(lens, [str(L) for L in lens])
     b.minorticks_off()
-    b.set(
-        xlabel="input length (tokens)",
-        ylabel="accuracy (%), 512 candidate words",
-        ylim=(-3, 103),
-        title="(b) TinyLlama-NoPE-1.1B, trained on 2048",
-    )
+    b.set(xlabel="input length (tokens)", ylim=(-3, 103), title="(b) TinyLlama-NoPE-1.1B")
     handles, labels = b.get_legend_handles_labels()
-    fig.legend(handles, labels, loc="lower center", ncol=3, bbox_to_anchor=(0.5, 1.0))
-    fig.tight_layout(w_pad=2.0)
+    fig.legend(
+        handles + [TRAINED],
+        labels + ["training length"],
+        loc="lower center",
+        ncol=4,
+        bbox_to_anchor=(0.5, 0.98),
+    )
+    fig.tight_layout()
     save(fig, "fig2_length")
 
 
 def fig3() -> None:
     full = load("results6/full.json")
     p_in, p_far = np.array(full["p_inside"]), np.array(full["p_far"])
-    heads = full["binding_heads"]
-    m_in, m_far = (np.mean([p[l][h] for l, h in heads]) for p in (p_in, p_far))
-    fig = plt.figure(figsize=(WIDTH, 2.75))
-    grid = fig.add_gridspec(1, 5, width_ratios=[1, 1, 0.045, 0.42, 0.95], wspace=0.12)
+    fig = plt.figure(figsize=(WIDTH, 2.5))
+    grid = fig.add_gridspec(1, 5, width_ratios=[1, 1, 0.045, 0.5, 1.05], wspace=0.1)
     axes = [fig.add_subplot(grid[0, i]) for i in (0, 1, 2, 4)]
     for ax, data, title in (
-        (
-            axes[0],
-            p_in,
-            f"(a) TinyLlama: pairs inside 2048\n{len(heads)} outlined heads, mean {m_in:.2f}",
-        ),
-        (axes[1], p_far, f"(b) pairs past position 6000\nsame heads, mean {m_far:.2f}"),
+        (axes[0], p_in, "(a) within 2048 tokens"),
+        (axes[1], p_far, "(b) beyond position 6000"),
     ):
         im = ax.imshow(
             data,
             origin="lower",
-            cmap="Blues",
+            cmap="viridis",
             vmin=0,
             vmax=1,
             aspect="auto",
             interpolation="nearest",
         )
-        for l, h in heads:
-            ax.add_patch(Rectangle((h - 0.5, l - 0.5), 1, 1, fill=False, ec="black", lw=0.5))
+        for l, h in full["binding_heads"]:
+            ax.add_patch(Rectangle((h - 0.5, l - 0.5), 1, 1, fill=False, ec="white", lw=0.6))
         ax.grid(False)
         ax.set(title=title, xlabel="head", xticks=[0, 8, 16, 24, 31], yticks=[0, 5, 10, 15, 21])
     axes[0].set_ylabel("layer")
     axes[1].set_yticklabels([])
     cb = fig.colorbar(im, cax=axes[2])
-    cb.set_label("attention share on the key ($t-1$)", fontsize=8)
-    cb.ax.tick_params(labelsize=7, width=0.5)
-    cb.outline.set_linewidth(0.5)
+    cb.ax.tick_params(labelsize=7)
+    cb.set_label(r"attention to key ($t-1$)", fontsize=8)
 
     ax = axes[3]
     rows = np.array([toy_binding(s) for s in range(6)])
     x = np.arange(4)
-    ax.axvspan(-0.45, 0.45, color="0.9", zorder=0, lw=0)
-    ax.text(0, 0.97, "trained", ha="center", va="top", fontsize=7.5, color="0.35")
+    ax.axvspan(-0.4, 0.4, color="0.9", lw=0, zorder=0)
     for r in rows:
         ax.plot(x, r, color=PATCH, alpha=0.3, lw=0.8)
-    ax.plot(x, rows.mean(0), color=PATCH, marker="o", lw=1.6)
-    for xi, v in ((0, rows.mean(0)[0]), (3, rows.mean(0)[3])):
-        ax.annotate(
-            f"{v:.2f}",
-            (xi, v),
-            xytext=(2, 7),
-            textcoords="offset points",
-            ha="center",
-            fontsize=7.5,
-            color=PATCH,
-        )
-    ax.set_xlim(-0.45, 3.4)
-    ax.set_xticks(x, ["64–127", "128–255", "256–511", "512–1023"], fontsize=7)
+    ax.plot(x, rows.mean(0), color=PATCH, marker="o")
+    ax.set_xlim(-0.4, 3.3)
+    ax.set_xticks(
+        x, ["64--127", "128--255", "256--511", "512--1023"], fontsize=7, rotation=25, ha="right"
+    )
     ax.set(
         ylim=(0, 1),
-        title="(c) Toy models, by position\nthin: 6 seeds; thick: mean",
+        title="(c) toy models",
         xlabel="position of the value token",
-        ylabel="attention share on the key ($t-1$)",
+        ylabel=r"attention to key ($t-1$)",
     )
-    fig.subplots_adjust(left=0.07, right=0.99, bottom=0.19, top=0.84)
+    fig.subplots_adjust(left=0.07, right=0.99, bottom=0.19, top=0.9)
     save(fig, "fig3_heads")
 
 
 def fig4() -> None:
-    rows = list(FIXES) + [("Binding-head patch (oracle)", "p4", "patch")]
+    rows = list(FIXES) + [("binding-head patch", "p4", "patch")]
     y = np.r_[np.arange(len(FIXES), 0, -1) + 0.6, 0.0]
     rng = np.random.default_rng(0)
-    fig, axes = plt.subplots(1, 2, figsize=(WIDTH, 3.0), sharey=True)
-    panels = (
+    fig, axes = plt.subplots(1, 2, figsize=(WIDTH, 2.9), sharey=True)
+    for ax, pl, title in (
         (axes[0], "uniform", "(a) pairs anywhere"),
         (axes[1], "before", "(b) pairs far from the start"),
-    )
-    for ax, pl, title in panels:
-        base = np.mean([toy_acc("p1", s, "none", pl) for s in range(3)])
+    ):
         for yi, (label, src, key) in zip(y, rows):
             g = gains(src, key, pl)
-            oracle = key == "patch"
-            color = PATCH if oracle else NONE
-            ax.plot([g.min(), g.max()], [yi, yi], color=color, lw=1.0, alpha=0.6, zorder=2)
-            dy = rng.uniform(-0.14, 0.14, len(g))
-            if oracle:
-                ax.scatter(g[:3], yi + dy[:3], s=13, color=color, lw=0, zorder=3)
-                ax.scatter(
-                    g[3:], yi + dy[3:], s=13, facecolor="white", edgecolor=color, lw=0.8, zorder=3
-                )
-            else:
-                ax.scatter(g, yi + dy, s=10, color=color, alpha=0.7, lw=0, zorder=3)
+            color = PATCH if key == "patch" else NONE
             ax.plot(
                 g.mean(),
                 yi,
                 marker="D",
-                ms=5.5 if oracle else 4.5,
+                ms=4.5,
                 color=color,
-                mec="white",
-                mew=0.6,
+                mec="black",
+                mew=0.5,
+                alpha=0.8,
+                zorder=3,
+            )
+            ax.scatter(
+                g,
+                yi + rng.uniform(-0.22, 0.22, len(g)),
+                s=10,
+                color=color,
+                alpha=0.8,
+                lw=0,
                 zorder=4,
             )
-            if oracle:
-                ax.annotate(
-                    f"+{g.mean():.1f}",
-                    (g.mean(), yi),
-                    xytext=(0, 7),
-                    textcoords="offset points",
-                    ha="center",
-                    fontsize=8.5,
-                    color=PATCH,
-                )
         ax.axvline(0, color="black", lw=0.6)
         ax.axhline(0.8, color="0.6", lw=0.5)
-        ax.set(
-            xlim=(-12, 105),
-            xticks=[0, 25, 50, 75, 100],
-            title=f"{title}; baseline {base:.1f}%",
-            xlabel="gain in accuracy at 1024 tokens (points)",
-        )
+        ax.set(xlim=(-10, 102), title=title, xlabel="gain in accuracy (percentage points)")
         ax.grid(axis="y", visible=False)
     axes[0].set_yticks(y, [label for label, _, _ in rows])
     axes[0].set_ylim(-0.6, y.max() + 0.6)
-    axes[1].text(
-        103,
-        y[0] + 0.3,
-        "tested corrections, pilots 1–2",
-        ha="right",
-        va="center",
-        fontsize=7.5,
-        color="0.35",
-    )
-    axes[1].text(2, 0.5, "oracle, pilot 4", ha="left", va="center", fontsize=7.5, color="0.35")
     handles = [
-        plt.Line2D([], [], color=NONE, marker="o", ls="", ms=3.5, alpha=0.7, label="training seed"),
-        plt.Line2D(
-            [],
-            [],
-            color=PATCH,
-            marker="o",
-            ls="",
-            ms=3.5,
-            mfc="white",
-            label="fresh seed (oracle only)",
-        ),
-        plt.Line2D([], [], color=NONE, marker="D", ls="", ms=4.5, label="mean"),
-        plt.Line2D([], [], color=NONE, lw=1.0, alpha=0.6, label="range"),
+        plt.Line2D([], [], color=NONE, marker="o", ls="", ms=3.5, alpha=0.6, label="seed"),
+        plt.Line2D([], [], color=NONE, marker="D", ls="", ms=5, mec="black", mew=0.5, label="mean"),
     ]
-    fig.legend(
-        handles=handles, loc="lower center", ncol=4, bbox_to_anchor=(0.62, 1.0), handletextpad=0.3
-    )
+    axes[1].legend(handles=handles, loc="center right")
     fig.tight_layout()
     save(fig, "fig4_gains")
 
 
 def fig5() -> None:
-    fig = plt.figure(figsize=(WIDTH, 5.6))
-    grid = fig.add_gridspec(2, 2, height_ratios=[1.35, 0.75], hspace=0.42, wspace=0.25)
+    fig = plt.figure(figsize=(WIDTH, 5.2))
+    grid = fig.add_gridspec(2, 2, height_ratios=[1.35, 0.7], hspace=0.45, wspace=0.25)
     a, a2, b = fig.add_subplot(grid[0, 0]), fig.add_subplot(grid[0, 1]), fig.add_subplot(grid[1, :])
     comp = load("audit/pilot4_comparison.json")["seeds"]
     full, ind = load("results6/full.json"), load("audit2/cpu_run_independent_summary.json")
 
-    def accuracy_point(
+    def point(
         ax: plt.Axes,
         x: float,
         xlo: float,
@@ -392,7 +286,7 @@ def fig5() -> None:
         ylo: float,
         yhi: float,
         cond: str,
-        **kw: Any,
+        ms: float,
     ) -> None:
         ax.errorbar(
             x,
@@ -402,149 +296,101 @@ def fig5() -> None:
             color=COND[cond][0],
             lw=0.7,
             capsize=0,
+            marker=COND[cond][1],
+            ms=ms,
             zorder=3,
-            **kw,
         )
 
-    inset = a.inset_axes([0.6, 0.08, 0.36, 0.36])
+    inset = a.inset_axes([0.62, 0.07, 0.36, 0.38])
     for ax in (a, inset):
         ax.plot([0, 100], [0, 100], color="0.6", lw=0.8, zorder=1)
         for s in comp:
             for cond in ("none", "patch", "sham"):
                 ox, oy = s["claimed_accuracy_percent"][cond], s["audit_accuracy_percent"][cond]
-                accuracy_point(
+                point(
                     ax,
                     ox,
                     *clopper_pearson(round(ox * 10), 1000),
                     oy,
                     *clopper_pearson(round(oy * 2), 200),
                     cond,
-                    marker=COND[cond][1],
-                    ms=4,
+                    4,
                 )
-    patched = sorted(
-        (s["claimed_accuracy_percent"]["patch"], s["audit_accuracy_percent"]["patch"], s["seed"])
-        for s in comp
-    )
-    groups: list[tuple[float, float, list[int]]] = []
-    for ox, oy, seed in patched:
-        if groups and ox - groups[-1][0] < 3:
-            groups[-1][2].append(seed)
-        else:
-            groups.append((ox, oy, [seed]))
-    for ox, oy, seeds in groups:
-        label = ("seeds " if len(seeds) > 1 else "seed ") + ", ".join(map(str, sorted(seeds)))
-        a.annotate(
-            label,
-            (ox, oy),
-            xytext=(-7, 2),
-            textcoords="offset points",
-            ha="right",
-            va="center",
-            fontsize=7,
-            color=PATCH,
-        )
     inset.set(xlim=(0, 4.5), ylim=(-0.3, 4.5), xticks=[0, 2, 4], yticks=[0, 2, 4])
-    inset.tick_params(labelsize=6.5, length=2)
-    inset.set_title("near 0%: no patch, sham", fontsize=7, pad=2)
+    inset.tick_params(labelsize=7, length=2)
     a.set(
         xlim=(-3, 103),
         ylim=(-3, 103),
         aspect="equal",
-        xlabel="original accuracy (%)",
-        ylabel="re-implementation (%)",
-        title="(a) Toy models: 6 seeds, 1024 tokens",
+        xlabel=r"original accuracy (\%)",
+        ylabel=r"re-implementation (\%)",
+        title="(a) toy models, 6 seeds",
     )
 
     a2.plot([0, 100], [0, 100], color="0.6", lw=0.8, zorder=1)
     for cond in ("none", "patch", "sham"):
         k = int(real_correct(cond, 4096).sum())
         r = ind["accuracy"][f"4096_{cond}"]
-        accuracy_point(
+        point(
             a2,
             100 * k / 200,
             *clopper_pearson(k, 200),
             r["percent"],
             *r["exact_binomial_95_percent"],
             cond,
-            marker=COND[cond][1],
-            ms=5,
+            5,
         )
-    a2.text(
-        98,
-        4,
-        "original: 200 inputs\nre-implementation: 18",
-        ha="right",
-        va="bottom",
-        fontsize=7,
-        color="0.35",
-    )
     a2.set(
         xlim=(-3, 103),
         ylim=(-3, 103),
         aspect="equal",
-        xlabel="original accuracy (%)",
-        title="(b) TinyLlama: 4096 tokens",
+        xlabel=r"original accuracy (\%)",
+        title="(b) TinyLlama, 4096 tokens",
     )
     handles = [
         plt.Line2D([], [], color=c, marker=m, ls="", ms=5, label=label)
         for c, m, label in COND.values()
     ]
-    fig.legend(
-        handles=handles, loc="lower center", ncol=3, bbox_to_anchor=(0.5, 0.955), handletextpad=0.3
-    )
+    a2.legend(handles=handles, loc="lower right")
 
     hs = full["binding_heads"]
     mean = lambda key: np.mean([full[key][l][h] for l, h in hs])
     d = ind["diagnostics"]
     toy_orig = np.array([toy_binding(s["seed"])[3] / toy_binding(s["seed"])[0] for s in comp])
     toy_re = np.array([s["audit_far_inside_attention_ratio"] for s in comp])
-    rows = (
-        ("attention, toy\n(6 seeds)", 3),
-        ("attention,\nTinyLlama", 2),
-        ("score margin,\nTinyLlama", 1),
-    )
-    b.scatter(toy_orig, np.full(6, 3.13), s=10, color=ORIGINAL, alpha=0.5, lw=0)
-    b.scatter(toy_re, np.full(6, 2.87), s=10, color=REBUILD, alpha=0.6, lw=0)
-    b.plot(toy_orig.mean(), 3.13, marker="o", color=ORIGINAL, ms=5)
-    b.plot(toy_re.mean(), 2.87, marker="D", color=REBUILD, ms=5)
+    b.scatter(toy_orig, np.full(6, 3.13), s=10, color="black", alpha=0.4, lw=0)
+    b.scatter(toy_re, np.full(6, 2.87), s=10, color=REIMPL, alpha=0.5, lw=0)
+    b.plot(toy_orig.mean(), 3.13, marker="o", color="black", ms=5)
+    b.plot(toy_re.mean(), 2.87, marker="D", color=REIMPL, ms=5)
     for yv, orig, est in (
         (2, mean("p_far") / mean("p_inside"), d["p_previous"]),
         (1, mean("margin_far") / mean("margin_inside"), d["margin_earlier"]),
     ):
         lo, hi = est["ratio_paired_bootstrap_95"]
         v = est["far_over_inside"]
-        b.plot(orig, yv + 0.13, marker="o", color=ORIGINAL, ms=5)
+        b.plot(orig, yv + 0.13, marker="o", color="black", ms=5)
         b.errorbar(
             v,
             yv - 0.13,
             xerr=[[v - lo], [hi - v]],
             marker="D",
-            color=REBUILD,
+            color=REIMPL,
             ms=5,
             lw=1.0,
             capsize=2,
         )
+    b.add_patch(Rectangle((0.5, 0.62), 0.3, 0.76, color="0.9", lw=0, zorder=0))
     for yv in (3, 2):
-        b.plot([0.5, 0.5], [yv - 0.35, yv + 0.35], color="0.4", lw=0.8)
-    b.text(0.52, 3.38, "fades if ≤ 0.5", fontsize=7, color="0.35", va="bottom")
-    b.add_patch(Rectangle((0.5, 0.62), 0.3, 0.76, color="0.88", lw=0, zorder=0))
-    b.text(
-        0.65, 1.42, "registered “in between”", ha="center", va="bottom", fontsize=7, color="0.35"
-    )
-    b.set_yticks([r for _, r in rows], [label for label, _ in rows])
-    b.set(xlim=(0, 1.5), ylim=(0.45, 3.75), xlabel="far ÷ inside", title="(c) Ratios: far ÷ inside")
+        b.plot([0.5, 0.5], [yv - 0.35, yv + 0.35], color="0.5", lw=0.8, ls=":")
+    b.set_yticks([3, 2, 1], ["attention, toy", "attention, TinyLlama", "score margin, TinyLlama"])
+    b.set(xlim=(0, 1.5), ylim=(0.45, 3.55), xlabel="ratio, beyond / within", title="(c) ratios")
     b.grid(axis="y", visible=False)
     b.legend(
         handles=[
-            plt.Line2D([], [], color=ORIGINAL, marker="o", ls="", ms=5, label="original"),
-            plt.Line2D(
-                [], [], color=REBUILD, marker="D", ls="", ms=5, label="re-implementation (95% CI)"
-            ),
+            plt.Line2D([], [], color="black", marker="o", ls="", ms=5, label="original"),
+            plt.Line2D([], [], color=REIMPL, marker="D", ls="", ms=5, label="re-implementation"),
         ],
         loc="upper right",
-        fontsize=7.5,
-        handletextpad=0.3,
     )
     save(fig, "fig5_reproduction")
 
