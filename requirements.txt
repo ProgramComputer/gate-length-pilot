@@ -4,3 +4,4 @@ matplotlib
 safetensors
 tokenizers
 huggingface_hub
+pypdfium2  # README figures only (readme/build.py); also needs pdflatex with pgfplots

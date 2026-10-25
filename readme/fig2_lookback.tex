@@ -1,0 +1,45 @@
+\documentclass[tikz,border=14pt]{standalone}
+\input{common}
+\newcommand{\px}[1]{(4.2 + 3.2*(#1 + 1.25))}
+\newcommand{\pair}[4]{\node[tok] (k) at ({\px{#1} - 0.48}, #2) {key};
+  \node[tok, fill=band] (v) at ({\px{#1} + 0.48}, #2) {value};
+  \draw[cpatch, line width={max(0.35, 11*#3)*1pt}, line cap=round]
+    ($(v.north)+(0,1pt)$) .. controls +(0,1.5) and +(0,1.5) .. ($(k.north)+(0,1pt)$);
+  \node[big, text=ink, anchor=south] at ({\px{#1}}, #2 + 1.62) {#4};}
+\begin{document}
+\begin{tikzpicture}[tok/.style={draw=softgray, line width=0.5pt, rounded corners=2pt, minimum width=0.9cm,
+                                minimum height=0.55cm, text height=1.5ex, text depth=0.3ex, font=\small, text=ink, fill=white, inner sep=0pt}]
+  \header{Each value stops looking back at its key}
+    {Arc thickness is how much attention a value token pays to the key just before it: the step that binds
+     the two. Past the trained length, that step fades.}
+
+  \begin{scope}[shift={($(sub.south west)+(0,-3.6cm)$)}]
+    \begin{pgfonlayer}{background}
+      \fill[band] ({\px{0}}, 2.4) rectangle ({\px{3.1}}, -4.3);
+    \end{pgfonlayer}
+    \draw[muted, line width=0.6pt] ({\px{0}}, 2.4) -- ({\px{0}}, -4.3);
+    \node[quiet, anchor=south east] at ({\px{0} - 0.08}, 2.4) {inside the trained length};
+    \node[quiet, anchor=south west] at ({\px{0} + 0.08}, 2.4) {past it};
+    \draw[muted, line width=0.4pt] ({\px{-1.25}}, -4.3) -- ({\px{3.1}}, -4.3);
+    \foreach \l/\t in {-1/{\textonehalf$\times$}, 0/{1$\times$}, 1/{2$\times$}, 2/{4$\times$}, 3/{8$\times$}} {
+      \draw[muted, line width=0.4pt] ({\px{\l}}, -4.3) -- ({\px{\l}}, -4.4);
+      \node[quiet, anchor=north] at ({\px{\l}}, -4.42) {\t};
+    }
+    \node[quiet, anchor=north] at ({\px{0.9}}, -4.95) {position of the pair, in multiples of the trained length};
+
+    \node[lab, font=\normalsize\bfseries, anchor=west] at (0, 0) {toy models};
+    \pair{-0.415}{0}{\toyAttA}{\toyAttAL}
+    \pair{0.585}{0}{\toyAttB}{\toyAttBL}
+    \pair{1.585}{0}{\toyAttC}{\toyAttCL}
+    \pair{2.585}{0}{\toyAttD}{\toyAttDL}
+
+    \node[lab, font=\normalsize\bfseries, anchor=west] at (0, -3.3) {TinyLlama-NoPE-1.1B};
+    \pair{-0.6}{-3.3}{\realAttIn}{\realAttInL}
+    \pair{1.77}{-3.3}{\realAttFar}{\realAttFarL}
+  \end{scope}
+
+  \node[footnote] at ($(sub.south west)+(0,-9.5cm)$) {Averaged over the binding heads: 6 toy seeds and
+    \realHeadsL~TinyLlama heads. Why it fades, a weaker pull toward the key or the same pull spread
+    over more tokens, is still open.};
+\end{tikzpicture}
+\end{document}

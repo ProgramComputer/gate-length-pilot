@@ -1,0 +1,29 @@
+\documentclass[tikz,border=14pt]{standalone}
+\input{common}
+\input{data/fig4_labels}
+\pgfplotsset{gains/.style={base, width=11cm, height=8.2cm, xbar, bar width=11pt, bar shift=0pt,
+    xmin=0, xmax=82, xtick={0,25,50,75}, ymin=0.4, ymax=9.6, ytick={1,...,9}, fixlabels,
+    yticklabel style={font=\normalsize, text=ink}, y axis line style={draw=none}, ytick style={draw=none},
+    ymajorgrids=false, xlabel={gain in accuracy over no intervention (percentage points)},
+    point meta=x, nodes near coords align={horizontal}}}
+\begin{document}
+\begin{tikzpicture}
+  \header{Nothing else we tried came close}
+    {Toy models at 8$\times$ their trained length, with the key--value pairs far from the start. Eight fixes from
+     the first two pilots against the oracle patch of the binding heads.}
+
+  \begin{axis}[gains, at={($(sub.south west)+(7.4cm,-1.0cm)$)}, anchor=north west]
+    \addplot[fill=softgray, draw=none, restrict expr to domain={\thisrow{hl}}{0:0},
+      nodes near coords={\pgfmathprintnumber[fixed, precision=1, fixed zerofill, showpos]{\pgfplotspointmeta}},
+      every node near coord/.append style={font=\small, text=muted}]
+      table[x=gain, y=y] {data/fig4.dat};
+    \addplot[fill=cpatch, draw=none, restrict expr to domain={\thisrow{hl}}{1:1},
+      nodes near coords={\pgfmathprintnumber[fixed, precision=1, fixed zerofill, showpos]{\pgfplotspointmeta} points},
+      every node near coord/.append style={font=\Large\bfseries, text=cpatch}]
+      table[x=gain, y=y] {data/fig4.dat};
+  \end{axis}
+
+  \node[footnote] at ($(sub.south west)+(0,-9.7cm)$) {Means of 3 seeds (the patch: 6). With the pairs placed
+    anywhere instead, the best of the eight gained \bestFixAnywhereL{} points. The patch is an oracle: it shows where the failure is, not how to fix it in practice.};
+\end{tikzpicture}
+\end{document}

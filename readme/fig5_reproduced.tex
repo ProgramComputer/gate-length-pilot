@@ -1,0 +1,42 @@
+\documentclass[tikz,border=14pt]{standalone}
+\input{common}
+\newcommand{\ax}[1]{(5.6 + 0.115*(#1))}
+\newcommand{\rescue}[5]{\draw[#4, line width=3.4pt, -{Stealth[length=11pt, width=12pt]}] ({\ax{#2} + 0.12}, #1) -- ({\ax{#3}}, #1);
+  \fill[#4, draw=white, line width=1pt] ({\ax{#2}}, #1) circle (3.6pt);
+  \node[lab, font=\normalsize\bfseries, text=#4, anchor=west] at ({\ax{#3} + 0.12}, #1) {#5};}
+\begin{document}
+\begin{tikzpicture}
+  \header{Rebuilt from scratch, the rescue reappears}
+    {A separate AI (Codex) re-implemented the experiments from their pre-registrations alone, before seeing this
+     code or its results. Each arrow runs from no patch to patch.}
+
+  \begin{scope}[shift={($(sub.south west)+(0,-2.3cm)$)}]
+    \draw[cpatch, line width=3.4pt, -{Stealth[length=11pt, width=12pt]}] ({\ax{0}}, 1.25) -- ({\ax{10}}, 1.25);
+    \node[lab, anchor=west] at ({\ax{11}}, 1.25) {original result};
+    \draw[corange, line width=3.4pt, -{Stealth[length=11pt, width=12pt]}] ({\ax{45}}, 1.25) -- ({\ax{55}}, 1.25);
+    \node[lab, anchor=west] at ({\ax{56}}, 1.25) {independent rebuild};
+
+    \foreach \a in {0,25,50,75,100} {
+      \draw[gridc, line width=0.5pt] ({\ax{\a}}, 0.6) -- ({\ax{\a}}, -2.4);
+      \node[quiet, anchor=north] at ({\ax{\a}}, -2.45) {\a\%};
+    }
+    \node[quiet, anchor=north] at ({\ax{50}}, -2.95) {accuracy at recalling the value};
+
+    \node[lab, font=\normalsize\bfseries, anchor=south west] at (0, 0.02) {TinyLlama-NoPE-1.1B};
+    \node[quiet, anchor=north west] at (0, -0.02) {2$\times$ its trained length};
+    \rescue{0.2}{\realTwoNone}{\realTwoPatch}{cpatch}{\pct{\realTwoPatchL}}
+    \rescue{-0.2}{\auditTwoNone}{\auditTwoPatch}{corange}{\pct{\auditTwoPatchL}
+      \textmd{\small (\auditTwoNL{} inputs)}}
+
+    \node[lab, font=\normalsize\bfseries, anchor=south west] at (0, -1.58) {toy models};
+    \node[quiet, anchor=north west] at (0, -1.62) {8$\times$ their trained length};
+    \rescue{-1.4}{\toyNone}{\toyPatch}{cpatch}{\pct{\toyPatchL}}
+    \rescue{-1.8}{\auditToyNone}{\auditToyPatch}{corange}{\pct{\auditToyPatchL}}
+  \end{scope}
+
+  \node[footnote] at ($(sub.south west)+(0,-6.0cm)$) {Not reproduced: the score-margin ratio behind ``weaker
+    pull or the same pull spread thinner'' (\marginOrigL{} originally, \marginAuditL{} rebuilt), so why the
+    look-back fades stays open. The TinyLlama rebuild ran in float32 on a laptop CPU and patched only 2 inputs at
+    4$\times$, too few to show.};
+\end{tikzpicture}
+\end{document}
