@@ -58,8 +58,10 @@
 <details><summary>Details</summary>
 
 - A separate AI (Codex) wrote its own task, head selection, measurement and patch code from the pre-registrations, before seeing this code or its results. It reused the same model checkpoints (toy models were not retrained). Write-ups: [AUDIT.md](AUDIT.md), [AUDIT-2.md](AUDIT-2.md).
-- (a) Toy, 1024 tokens, 6 training seeds × 3 conditions: original 1000 inputs per seed, re-implementation 200. TinyLlama, 4096 tokens: original 200 inputs, re-implementation 18, in float32 on a CPU. Bars are exact 95% binomial intervals. The re-implementation patched only 2 TinyLlama inputs at 8192, too few to show.
-- (b) Ratios of the far mean to the inside mean over the selected heads. Attention: share on $t-1$. Score margin: the attention logit of $t-1$ minus the mean logit of the other earlier tokens (the original code also counted the value token itself, a disclosed deviation in [PREREGISTRATION-6.md](PREREGISTRATION-6.md)). Re-implementation intervals are a paired bootstrap over its 4 diagnostic inputs; the original saved only averages, so it has no interval. Registered rules: attention fades if the ratio is at most 0.5 (D1); the margin is "in between" from 0.5 to 0.8 (D1b).
+- (a) Toy models at 1024 tokens: one point per training seed and condition (6 × 3), labeled by seed for the patch. Original 1000 inputs per seed, re-implementation 200. The inset zooms on the no-patch and sham points near 0%.
+- (b) TinyLlama at 4096 tokens: original 200 inputs, re-implementation 18, in float32 on a CPU. The re-implementation patched only 2 TinyLlama inputs at 8192, too few to show.
+- Bars in (a) and (b) are exact 95% binomial intervals.
+- (c) Ratios of the far mean to the inside mean over the selected heads. Attention: share on $t-1$. Score margin: the attention logit of $t-1$ minus the mean logit of the other earlier tokens (the original code also counted the value token itself, a disclosed deviation in [PREREGISTRATION-6.md](PREREGISTRATION-6.md)). Re-implementation intervals are a paired bootstrap over its 4 diagnostic inputs; the original saved only averages, so it has no interval. Registered rules: attention fades if the ratio is at most 0.5 (D1); the margin is "in between" from 0.5 to 0.8 (D1b).
 
 </details>
 

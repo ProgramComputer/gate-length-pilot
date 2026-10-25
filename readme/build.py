@@ -377,92 +377,121 @@ def fig4() -> None:
 
 
 def fig5() -> None:
-    fig, (a, b) = plt.subplots(1, 2, figsize=(WIDTH, 3.05), gridspec_kw={"width_ratios": [1.05, 1]})
+    fig = plt.figure(figsize=(WIDTH, 5.6))
+    grid = fig.add_gridspec(2, 2, height_ratios=[1.35, 0.75], hspace=0.42, wspace=0.25)
+    a, a2, b = fig.add_subplot(grid[0, 0]), fig.add_subplot(grid[0, 1]), fig.add_subplot(grid[1, :])
     comp = load("audit/pilot4_comparison.json")["seeds"]
     full, ind = load("results6/full.json"), load("audit2/cpu_run_independent_summary.json")
-    points: list[tuple[float, float, float, float, float, float, str, str]] = []
-    for s in comp:
-        for cond in ("none", "patch", "sham"):
-            ox, oy = s["claimed_accuracy_percent"][cond], s["audit_accuracy_percent"][cond]
-            points.append(
-                (
+
+    def accuracy_point(
+        ax: plt.Axes,
+        x: float,
+        xlo: float,
+        xhi: float,
+        yv: float,
+        ylo: float,
+        yhi: float,
+        cond: str,
+        **kw: Any,
+    ) -> None:
+        ax.errorbar(
+            x,
+            yv,
+            xerr=[[x - xlo], [xhi - x]],
+            yerr=[[yv - ylo], [yhi - yv]],
+            color=COND[cond][0],
+            lw=0.7,
+            capsize=0,
+            zorder=3,
+            **kw,
+        )
+
+    inset = a.inset_axes([0.6, 0.08, 0.36, 0.36])
+    for ax in (a, inset):
+        ax.plot([0, 100], [0, 100], color="0.6", lw=0.8, zorder=1)
+        for s in comp:
+            for cond in ("none", "patch", "sham"):
+                ox, oy = s["claimed_accuracy_percent"][cond], s["audit_accuracy_percent"][cond]
+                accuracy_point(
+                    ax,
                     ox,
                     *clopper_pearson(round(ox * 10), 1000),
                     oy,
                     *clopper_pearson(round(oy * 2), 200),
                     cond,
-                    "toy",
+                    marker=COND[cond][1],
+                    ms=4,
                 )
-            )
-    for cond in ("none", "patch", "sham"):
-        k = int(real_correct(cond, 4096).sum())
-        r = ind["accuracy"][f"4096_{cond}"]
-        points.append(
-            (
-                100 * k / 200,
-                *clopper_pearson(k, 200),
-                r["percent"],
-                *r["exact_binomial_95_percent"],
-                cond,
-                "real",
-            )
+    patched = sorted(
+        (s["claimed_accuracy_percent"]["patch"], s["audit_accuracy_percent"]["patch"], s["seed"])
+        for s in comp
+    )
+    groups: list[tuple[float, float, list[int]]] = []
+    for ox, oy, seed in patched:
+        if groups and ox - groups[-1][0] < 3:
+            groups[-1][2].append(seed)
+        else:
+            groups.append((ox, oy, [seed]))
+    for ox, oy, seeds in groups:
+        label = ("seeds " if len(seeds) > 1 else "seed ") + ", ".join(map(str, sorted(seeds)))
+        a.annotate(
+            label,
+            (ox, oy),
+            xytext=(-7, 2),
+            textcoords="offset points",
+            ha="right",
+            va="center",
+            fontsize=7,
+            color=PATCH,
         )
-
-    inset = a.inset_axes([0.6, 0.07, 0.36, 0.36])
-    for ax in (a, inset):
-        ax.plot([0, 100], [0, 100], color="0.6", lw=0.8, zorder=1)
-        for x, xlo, xhi, yv, ylo, yhi, cond, model in points:
-            kw = (
-                dict(marker="o", ms=4)
-                if model == "toy"
-                else dict(marker="D", ms=5, mfc="white", mew=1.2)
-            )
-            ax.errorbar(
-                x,
-                yv,
-                xerr=[[x - xlo], [xhi - x]],
-                yerr=[[yv - ylo], [yhi - yv]],
-                color=COND[cond][0],
-                lw=0.7,
-                capsize=0,
-                zorder=3,
-                **kw,
-            )
     inset.set(xlim=(0, 4.5), ylim=(-0.3, 4.5), xticks=[0, 2, 4], yticks=[0, 2, 4])
     inset.tick_params(labelsize=6.5, length=2)
-    inset.set_title("near 0%", fontsize=7, pad=2)
-    handles = [
-        plt.Line2D([], [], color=c, marker="s", ls="", ms=5, label=label)
-        for c, _, label in COND.values()
-    ]
-    handles += [
-        plt.Line2D([], [], color="black", marker="o", ls="", ms=4, label="toy, 6 seeds"),
-        plt.Line2D(
-            [],
-            [],
-            color="black",
-            marker="D",
-            ls="",
-            ms=5,
-            mfc="white",
-            label="TinyLlama, 4096 tokens",
-        ),
-    ]
-    a.legend(
-        handles=handles,
-        loc="upper left",
-        fontsize=7,
-        handletextpad=0.3,
-        borderaxespad=0.2,
-        labelspacing=0.35,
-    )
+    inset.set_title("near 0%: no patch, sham", fontsize=7, pad=2)
     a.set(
         xlim=(-3, 103),
         ylim=(-3, 103),
         aspect="equal",
         xlabel="original accuracy (%)",
         ylabel="re-implementation (%)",
-        title="(a) retrieval accuracy (95% CIs)",
+        title="(a) Toy models: 6 seeds, 1024 tokens",
+    )
+
+    a2.plot([0, 100], [0, 100], color="0.6", lw=0.8, zorder=1)
+    for cond in ("none", "patch", "sham"):
+        k = int(real_correct(cond, 4096).sum())
+        r = ind["accuracy"][f"4096_{cond}"]
+        accuracy_point(
+            a2,
+            100 * k / 200,
+            *clopper_pearson(k, 200),
+            r["percent"],
+            *r["exact_binomial_95_percent"],
+            cond,
+            marker=COND[cond][1],
+            ms=5,
+        )
+    a2.text(
+        98,
+        4,
+        "original: 200 inputs\nre-implementation: 18",
+        ha="right",
+        va="bottom",
+        fontsize=7,
+        color="0.35",
+    )
+    a2.set(
+        xlim=(-3, 103),
+        ylim=(-3, 103),
+        aspect="equal",
+        xlabel="original accuracy (%)",
+        title="(b) TinyLlama: 4096 tokens",
+    )
+    handles = [
+        plt.Line2D([], [], color=c, marker=m, ls="", ms=5, label=label)
+        for c, m, label in COND.values()
+    ]
+    fig.legend(
+        handles=handles, loc="lower center", ncol=3, bbox_to_anchor=(0.5, 0.955), handletextpad=0.3
     )
 
     hs = full["binding_heads"]
@@ -500,9 +529,11 @@ def fig5() -> None:
         b.plot([0.5, 0.5], [yv - 0.35, yv + 0.35], color="0.4", lw=0.8)
     b.text(0.52, 3.38, "fades if ≤ 0.5", fontsize=7, color="0.35", va="bottom")
     b.add_patch(Rectangle((0.5, 0.62), 0.3, 0.76, color="0.88", lw=0, zorder=0))
-    b.text(0.65, 0.6, "registered\n“in between”", ha="center", va="top", fontsize=7, color="0.35")
+    b.text(
+        0.65, 1.42, "registered “in between”", ha="center", va="bottom", fontsize=7, color="0.35"
+    )
     b.set_yticks([r for _, r in rows], [label for label, _ in rows])
-    b.set(xlim=(0, 1.5), ylim=(0.2, 3.6), xlabel="far ÷ inside", title="(b) ratios: far ÷ inside")
+    b.set(xlim=(0, 1.5), ylim=(0.45, 3.75), xlabel="far ÷ inside", title="(c) Ratios: far ÷ inside")
     b.grid(axis="y", visible=False)
     b.legend(
         handles=[
@@ -511,12 +542,10 @@ def fig5() -> None:
                 [], [], color=REBUILD, marker="D", ls="", ms=5, label="re-implementation (95% CI)"
             ),
         ],
-        loc="center right",
-        bbox_to_anchor=(1.0, 0.58),
-        fontsize=7,
+        loc="upper right",
+        fontsize=7.5,
         handletextpad=0.3,
     )
-    fig.tight_layout(w_pad=1.5)
     save(fig, "fig5_reproduction")
 
 
